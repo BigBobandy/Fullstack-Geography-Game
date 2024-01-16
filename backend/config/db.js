@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
+const setUpDBEventListeners = require("./dbEvents");
 
 const connectDB = async () => {
+  setUpDBEventListeners();
+
   try {
     await mongoose.connect(process.env.ATLAS_URL);
 
@@ -12,6 +15,11 @@ const connectDB = async () => {
     // ensure graceful shutdown of mongoose on Signal Terminate
     // this is used more in production
     process.on("SIGTERM", gracefulShutdown);
+
+    // Enable Mongoose debug mode in development environment
+    if (process.env.NODE_ENV === "development") {
+      mongoose.set("debug", true);
+    }
   } catch (err) {
     console.error(err.message);
     // Node.js method that terminates the Node.js process immediately
