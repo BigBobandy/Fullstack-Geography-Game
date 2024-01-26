@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 const setUpDBEventListeners = require("./dbEvents");
+
+const uri = process.env.ATLAS_URI;
 
 const connectDB = async () => {
   setUpDBEventListeners();
 
   try {
-    await mongoose.connect(process.env.ATLAS_URL);
+    await mongoose.connect(uri);
 
     console.log("MongoDB Connected...");
 
