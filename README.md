@@ -1,4 +1,4 @@
-# Locadle (name is a work-in-progress) - App Outline
+# Geography Genius - App Outline
 
 ## General Concept
 
