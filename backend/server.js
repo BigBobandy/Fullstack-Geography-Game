@@ -34,6 +34,12 @@ app.use(passport.session());
 // Connect to the database
 connectDB();
 
+// Import routes
+const authRoutes = require("./routes/authRoutes");
+
+// Use routes
+app.use("/auth", authRoutes);
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
