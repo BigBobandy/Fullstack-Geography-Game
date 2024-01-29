@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
+require("./config/passportSetup");
 
 // Start the express server
 const app = express();
