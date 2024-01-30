@@ -23,7 +23,7 @@
 
 ## Back End
 
-- **Technology**: Node.js, Express
+- **Technology**: Node.js, Express, Passport.js Google Oauth 2.0 for user auth
 - **Database**: MongoDB with Mongoose
 - **Planned Features**:
   - API endpoints for fetching daily challenges and submitting guesses.
