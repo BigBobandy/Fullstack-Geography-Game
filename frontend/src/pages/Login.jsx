@@ -1,18 +1,9 @@
 import React, { useState } from "react";
+import LoginButton from "../components/LoginButton";
 import Privacy from "../components/PrivacyModal";
 
 const Login = () => {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
-
-  const googleClientId =
-    "924598981847-lf7a0r5qv93mc8ui4jfvl309j0rom97u.apps.googleusercontent.com";
-  const redirectUri = "http://localhost:3000/auth/google/redirect";
-
-  function handleLoginWithGoogle() {
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&client_id=${googleClientId}&scope=profile email`;
-  }
 
   return (
     <main className="h-screen flex flex-col justify-center items-center ">
@@ -28,12 +19,7 @@ const Login = () => {
         </div>
 
         <div className="flex flex-col gap-4 mt-4">
-          <button
-            className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg font-bold"
-            onClick={handleLoginWithGoogle}
-          >
-            Login with Google
-          </button>
+          <LoginButton />
         </div>
         <div className="sticky bottom-0 mt-4 mb-2">
           <p>
