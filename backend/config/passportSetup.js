@@ -37,10 +37,12 @@ passport.use(
   )
 );
 
+// decide what data from user object should be stored in the session
 passport.serializeUser((user, done) => {
   done(null, user.id); // Serialize user by user ID
 });
 
+// opposite of serializeUser, takes the ID and returns the user object
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
