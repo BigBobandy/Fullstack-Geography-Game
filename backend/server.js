@@ -4,8 +4,7 @@ const connectDB = require("./config/db");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
-const session = require("express-session");
-const passport = require("passport");
+const authMiddleware = require("./config/authMiddleware");
 require("./config/passportSetup");
 
 // Start the express server
@@ -20,17 +19,8 @@ app.use(helmet());
 // Enable CORS
 app.use(cors());
 
-// initialize passport and session middleware
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
+// use auth middleware
+authMiddleware(app);
 
 // Connect to the database
 connectDB();
