@@ -10,10 +10,10 @@ const Login = () => {
       {showPrivacyModal && (
         <Privacy setShowPrivacyModal={setShowPrivacyModal} />
       )}
-      <div className="bg-neutral-content border-solid border-2 border-primary-content rounded-md p-8 pb-0 h-auto">
+      <div className="flex flex-col justify-between bg-neutral-content border-solid border-2 border-primary-content rounded-md p-6 pb-0 min-h-fit h-1/5">
         <div className="flex justify-center pb-4">
-          <h1 className="font-bold flex flex-row gap-2">
-            Geography <img src="/globe.png" alt="Globe" className="h-6 w-6" />
+          <h1 className="font-bold flex flex-row gap-2 text-2xl items-center">
+            Geography <img src="/globe.png" alt="Globe" className="h-7 w-7 " />
             Genius
           </h1>
         </div>
@@ -25,7 +25,7 @@ const Login = () => {
           <p>
             Review our{" "}
             <button
-              className="underline font-bold"
+              className="underline font-bold hover:text-accent"
               onClick={() => setShowPrivacyModal(true)}
             >
               privacy policy
