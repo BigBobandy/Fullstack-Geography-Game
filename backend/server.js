@@ -17,7 +17,12 @@ app.use(morgan("dev"));
 app.use(helmet());
 
 // Enable CORS
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // use auth middleware
 authMiddleware(app);

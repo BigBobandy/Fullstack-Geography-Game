@@ -5,7 +5,9 @@ export const fetchUserProfile = createAsyncThunk(
   // action type for this async action
   "auth/fetchUserProfile",
   async () => {
-    const response = await fetch("http://localhost:3000/api/user/profile");
+    const response = await fetch("http://localhost:3000/api/user/profile", {
+      credentials: "include",
+    });
     const userData = await response.json();
     return userData;
   }
