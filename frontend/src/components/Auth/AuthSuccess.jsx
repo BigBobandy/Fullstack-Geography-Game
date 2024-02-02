@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchUserProfile } from "../store/slices/authSlice";
+import { fetchUserProfile } from "../../store/slices/authSlice";
 
 const AuthSuccess = () => {
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ const AuthSuccess = () => {
           navigate("/login");
         });
     } else {
+      // user data is already available in the store, redirect to home page
       navigate("/");
     }
   }, [dispatch, navigate, user]);
