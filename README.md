@@ -11,7 +11,7 @@
 ## Front End
 
 - **Technology**: Vite React, React Router, React Redux for State Management
-- **Styling**: TailwindCSS, PostCSS, Autoprefixer
+- **Styling**: TailwindCSS, PostCSS, Autoprefixer, FontAwesome for Icons
 - **Planned Features**:
   - User Interface for game interaction.
   - Display of daily challenge (country outline hints within a world map context).
