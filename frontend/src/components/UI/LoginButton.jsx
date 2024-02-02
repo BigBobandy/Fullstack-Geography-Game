@@ -2,8 +2,8 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginStart } from "../store/slices/authSlice";
-import googleClientId from "../utils/config";
+import { loginStart } from "../../store/slices/authSlice";
+import googleClientId from "../../utils/config";
 
 const LoginButton = () => {
   const dispatch = useDispatch();
