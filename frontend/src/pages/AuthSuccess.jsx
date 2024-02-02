@@ -23,7 +23,7 @@ const AuthSuccess = () => {
 
   return (
     <div className="h-full w-full flex justify-center items-center">
-      <span class="loading loading-infinity loading-lg"></span>
+      <span className="loading loading-infinity loading-lg"></span>
     </div>
   );
 };
