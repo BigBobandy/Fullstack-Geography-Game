@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import LoginButton from "../Auth/LoginButton";
 import Privacy from "../Auth/PrivacyModal";
-import LoginButton from "../UI/LoginButton";
 
 const Login = () => {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
