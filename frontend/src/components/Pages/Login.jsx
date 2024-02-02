@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import LoginButton from "../Auth/LoginButton";
 import Privacy from "../Auth/PrivacyModal";
-import LoginButton from "../UI/LoginButton";
 
 const Login = () => {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
@@ -10,7 +10,10 @@ const Login = () => {
       {showPrivacyModal && (
         <Privacy setShowPrivacyModal={setShowPrivacyModal} />
       )}
-      <div className="flex flex-col justify-between bg-neutral-content border-solid border-2 border-primary-content rounded-md p-6 pb-0 min-h-fit h-1/5">
+      <div
+        className="flex flex-col justify-between bg-neutral-content border-solid border-2
+       border-primary-content rounded-md p-6 pb-0 min-h-fit h-1/5"
+      >
         <div className="flex justify-center pb-4">
           <h1 className="font-bold flex flex-row gap-2 text-2xl items-center">
             Geography <img src="/globe.png" alt="Globe" className="h-7 w-7 " />
