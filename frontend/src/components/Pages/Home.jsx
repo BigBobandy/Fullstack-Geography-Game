@@ -11,7 +11,7 @@ function Home() {
   }
 
   return (
-    <main className=" ">
+    <main className="overflow-hidden ">
       <Header />
       <Game />
     </main>
