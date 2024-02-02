@@ -9,7 +9,7 @@ async function getUserProfile(req, res) {
     }
 
     // get the user data from the database
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user);
 
     // if user wasn't found
     if (!user) {
