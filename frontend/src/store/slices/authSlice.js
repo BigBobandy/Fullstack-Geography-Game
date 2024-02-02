@@ -54,6 +54,8 @@ export const authSlice = createSlice({
       .addCase(fetchUserProfile.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
+        state.errorMessage =
+          action.error.message || "Failed to fetch user profile";
       });
   },
 });
