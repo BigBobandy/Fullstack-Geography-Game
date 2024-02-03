@@ -43,6 +43,10 @@ const countrySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  outlineImageUrl: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Country", countrySchema);
