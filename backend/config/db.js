@@ -32,8 +32,8 @@ const connectDB = async () => {
 };
 
 const gracefulShutdown = () => {
-  mongoose.connection.close(() => {
-    console.log("Mongoose connection disconnected due to app termination");
+  mongoose.connection.close().then(() => {
+    console.log("Mongoose connection disconnected");
     process.exit(0);
   });
 };

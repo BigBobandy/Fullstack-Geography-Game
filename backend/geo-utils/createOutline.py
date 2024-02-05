@@ -29,7 +29,7 @@ country_names_dict = {list(item.keys())[0]: list(
     item.values())[0] for item in country_names}
 
 # Create an output directory for the PNG files if it doesn't exist
-output_directory = '../assets/outlines'
+output_directory = '../assets'
 os.makedirs(output_directory, exist_ok=True)
 
 # Prepare the figure and axis outside the loop to be reused
