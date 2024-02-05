@@ -5,6 +5,10 @@ const countrySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  alpha3Code: {
+    type: String,
+    required: true,
+  },
   capital: {
     type: String,
     required: true,
@@ -41,6 +45,10 @@ const countrySchema = new mongoose.Schema({
   },
   area: {
     type: Number,
+    required: true,
+  },
+  outlineImageUrl: {
+    type: String,
     required: true,
   },
 });

@@ -10,7 +10,10 @@ const Header = () => {
   const user = useSelector((state) => state.auth.user);
 
   return (
-    <header className="flex items-center justify-between bg-neutral-content py-1 text-neutral rounded-md lg:w-[30vw] lg:mx-auto md:w-1/2 md:mx-auto min-w-fit">
+    <header
+      className="flex items-center justify-between bg-neutral-content py-1 text-neutral rounded-md 
+    lg:w-[30vw] lg:mx-auto md:w-[75vw] md:mx-auto min-w-fit"
+    >
       <div className="flex items-center">
         <h1 className="text-md font-bold flex items-center">
           Geography

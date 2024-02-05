@@ -10,6 +10,9 @@ require("./config/passportSetup");
 // Start the express server
 const app = express();
 
+// Serve static files
+app.use("/assets/outline", express.static("./assets"));
+
 // Use morgan to log requests
 app.use(morgan("dev"));
 
