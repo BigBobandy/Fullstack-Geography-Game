@@ -51,6 +51,10 @@ const countrySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lastUsed: {
+    type: Date,
+    default: null, // 'null' indicates that the country hasn't been used yet
+  },
 });
 
 module.exports = mongoose.model("Country", countrySchema);

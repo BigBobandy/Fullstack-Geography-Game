@@ -24,11 +24,11 @@ const userStatsSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    currentWinStreak: {
+    currentStreak: {
       type: Number,
       default: 0,
     },
-    longestWinStreak: {
+    longestStreak: {
       type: Number,
       default: 0,
     },

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const fs = require("fs");
 const connectDB = require("../../config/db");
-const Country = require("../../models/countrySchema");
+const Country = require("../../models/countryModel");
 
 const rawData = fs.readFileSync("./exportedData.json");
 const countries = JSON.parse(rawData);
