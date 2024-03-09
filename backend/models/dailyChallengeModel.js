@@ -6,6 +6,7 @@ const dailyChallengeSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
     dailyCountry: {
       type: mongoose.Schema.Types.ObjectId,
@@ -26,6 +27,12 @@ const dailyChallengeSchema = new mongoose.Schema(
     challengeDate: {
       type: Date,
       required: true,
+      index: true,
+    },
+    challengeNumber: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     isComplete: {
       type: Boolean,
@@ -34,5 +41,8 @@ const dailyChallengeSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Compound index for both user and challengeDate
+dailyChallengeSchema.index({ user: 1, challengeDate: 1 });
 
 module.exports = mongoose.model("DailyChallenge", dailyChallengeSchema);
