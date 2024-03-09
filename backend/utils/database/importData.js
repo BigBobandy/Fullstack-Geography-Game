@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
 const connectDB = require("../../config/db");
-const Country = require("../countrySchema");
+const Country = require("../countryModel");
 
 // Read the JSON file with country data
 const rawData = fs.readFileSync(path.join(__dirname, "exportedData.json"));

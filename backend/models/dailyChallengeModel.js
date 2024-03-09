@@ -18,6 +18,7 @@ const dailyChallengeSchema = new mongoose.Schema(
         guess: String, // Country name
         isCorrect: Boolean, // true or false
         hintsUsed: Number, // 0-3
+        hint: String, // Continent, Capital, Flag
         distance: Number, // in km
         direction: String, // N, NE, E, SE, S, SW, W, NW
       },
