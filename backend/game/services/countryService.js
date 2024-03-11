@@ -1,4 +1,5 @@
 const Country = require("../../models/countryModel");
+const DailyChallenge = require("../../models/dailyChallengeModel");
 const weightedSelectByArea = require("../utils/weightedSelection");
 
 async function getAllCountries() {
@@ -12,6 +13,19 @@ async function getAllCountries() {
 }
 
 async function selectCountry() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Adjust 'today' to the start of the day
+
+  // Check if a challenge for today already exists
+  const existingChallenge = await DailyChallenge.findOne({
+    challengeDate: today,
+  });
+
+  if (existingChallenge) {
+    console.log("Challenge for today already exists.");
+    return existingChallenge.dailyCountry;
+  }
+
   try {
     let countries = await getAllCountries();
 
