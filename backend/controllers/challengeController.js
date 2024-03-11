@@ -1,6 +1,7 @@
 const DailyChallenge = require("../models/dailyChallengeModel");
 const path = require("path");
 
+// handles serving the daily challenge image
 async function getDailyChallenge(req, res) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -35,4 +36,28 @@ async function getDailyChallenge(req, res) {
   }
 }
 
-module.exports = { getDailyChallenge };
+// handles sending the challenge ID for the current day
+async function getChallengeId(req, res) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  try {
+    const challenge = await DailyChallenge.findOne(
+      {
+        challengeDate: today,
+      },
+      "_id"
+    );
+
+    if (!challenge) {
+      return res.status(404).json({ message: "No daily challenge found" });
+    } else {
+      return res.json({ challengeId: challenge._id });
+    }
+  } catch (err) {
+    console.error("Error fetching challenge ID:", err);
+    res.status(500).json({ message: "Error getting challenge ID" });
+  }
+}
+
+module.exports = { getDailyChallenge, getChallengeId };
