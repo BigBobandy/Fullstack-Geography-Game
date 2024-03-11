@@ -41,11 +41,13 @@ startGame();
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const challengeRoutes = require("./routes/challengeRoutes");
+const guessRoutes = require("./routes/guessRoutes");
 
 // Use routes
 app.use("/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/challenge", challengeRoutes);
+app.use("/api/challenge/guess", guessRoutes);
 
 const PORT = process.env.PORT || 3000;
 
