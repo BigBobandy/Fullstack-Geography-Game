@@ -1,5 +1,5 @@
 const connectDB = require("../../config/db");
-const Country = require("../../models/countrySchema");
+const Country = require("../../models/countryModel");
 const fs = require("fs");
 const mongoose = require("mongoose");
 
