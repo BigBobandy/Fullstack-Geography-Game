@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const authMiddleware = require("./config/authMiddleware");
 require("./config/passportSetup");
+const startGame = require("./game/index");
 
 // Start the express server
 const app = express();
@@ -33,13 +34,18 @@ authMiddleware(app);
 // Connect to the database
 connectDB();
 
+// Start the game
+startGame();
+
 // Import routes
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const challengeRoutes = require("./routes/challengeRoutes");
 
 // Use routes
 app.use("/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/challenge", challengeRoutes);
 
 const PORT = process.env.PORT || 3000;
 
