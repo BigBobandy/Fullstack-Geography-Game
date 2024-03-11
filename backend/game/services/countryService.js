@@ -3,17 +3,11 @@ const weightedSelectByArea = require("../utils/weightedSelection");
 
 async function getAllCountries() {
   try {
-    // Connect to the database
-    await connectDB();
-
     const countries = await Country.find({});
     return countries;
   } catch (err) {
     console.error(err);
     throw err;
-  } finally {
-    // Close the connection
-    mongoose.connection.close();
   }
 }
 
@@ -34,17 +28,17 @@ async function selectCountry() {
     const selectedCountry = weightedSelectByArea(selectionPool);
     console.log("Selected country: ", selectedCountry.name);
 
-    // try {
-    //   // Update the lastUsed field of the selected country
-    //   selectedCountry.lastUsed = new Date();
-    //   await selectedCountry.save();
-    // } catch (err) {
-    //   console.error(
-    //     `Error updating lastUsed field for selected country, ${selectedCountry}:`,
-    //     err
-    //   );
-    //   throw err;
-    // }
+    try {
+      // Update the lastUsed field of the selected country
+      selectedCountry.lastUsed = new Date();
+      await selectedCountry.save();
+    } catch (err) {
+      console.error(
+        `Error updating lastUsed field for selected country, ${selectedCountry}:`,
+        err
+      );
+      throw err;
+    }
 
     return selectedCountry;
   } catch (err) {

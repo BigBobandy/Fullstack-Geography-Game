@@ -1,4 +1,4 @@
-const DailyChallenge = require("../models/dailyChallengeModel");
+const DailyChallenge = require("../../models/dailyChallengeModel");
 
 async function setDailyChallenge(selectedCountryId) {
   try {
