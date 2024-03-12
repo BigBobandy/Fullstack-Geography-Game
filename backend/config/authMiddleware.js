@@ -1,5 +1,6 @@
 const session = require("express-session");
 const passport = require("passport");
+const MongoStore = require("connect-mongo");
 
 module.exports = function authMiddleware(app) {
   // initialize passport and session middleware
@@ -8,6 +9,9 @@ module.exports = function authMiddleware(app) {
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
+      store: MongoStore.create({
+        mongoUrl: process.env.ATLAS_URI,
+      }),
     })
   );
 

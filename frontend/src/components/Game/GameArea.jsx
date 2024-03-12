@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDailyChallengeImage } from "../../store/slices/challengeSlice";
+import {
+  fetchDailyChallengeId,
+  fetchDailyChallengeImage,
+} from "../../store/slices/challengeSlice";
 
 const GameArea = () => {
   const dispatch = useDispatch();
@@ -10,6 +13,7 @@ const GameArea = () => {
 
   useEffect(() => {
     dispatch(fetchDailyChallengeImage());
+    dispatch(fetchDailyChallengeId());
   }, [dispatch]);
 
   if (isLoading) {
