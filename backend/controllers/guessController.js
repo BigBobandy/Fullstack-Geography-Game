@@ -2,7 +2,7 @@ const Guess = require("../models/guessModel");
 const DailyChallenge = require("../models/dailyChallengeModel");
 
 async function submitGuess(req, res) {
-  const userId = req.user.id;
+  const userId = req.user;
   const { challengeId, guess, guessNum } = req.body;
 
   try {
@@ -33,7 +33,7 @@ async function submitGuess(req, res) {
       });
     }
 
-    // Add the new guess to the guesses array
+    // Add the new guess to the guesses array*
     userGuess.guesses.push({
       guessNum: guessNum,
       guess: guess,
