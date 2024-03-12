@@ -14,6 +14,9 @@ const app = express();
 // Serve static files
 app.use("/assets/outline", express.static("./assets"));
 
+// Use express.json to parse requests with JSON payloads
+app.use(express.json());
+
 // Use morgan to log requests
 app.use(morgan("dev"));
 
