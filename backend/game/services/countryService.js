@@ -22,7 +22,6 @@ async function selectCountry() {
   });
 
   if (existingChallenge) {
-    console.log("Challenge for today already exists.");
     return existingChallenge.dailyCountry;
   }
 
