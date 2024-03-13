@@ -36,7 +36,7 @@ const GameArea = () => {
     <div>
       <h1 className="font-bold text-xl">Can you guess what country this is?</h1>
       {imageUrl && (
-        <div className="flex justify-center h-[55vh]">
+        <div className="flex justify-center h-[50vh]">
           <img src={imageUrl} alt="Country Outline" />
         </div>
       )}
