@@ -6,7 +6,7 @@ async function submitGuess(req, res) {
   const { challengeId, guess, guessNum } = req.body;
 
   try {
-    // Fetch the Daily Challenge
+    // fetch the Daily Challenge
     const challenge = await DailyChallenge.findById(challengeId).populate(
       "dailyCountry"
     );
@@ -15,11 +15,11 @@ async function submitGuess(req, res) {
       return res.status(404).send("Daily challenge not found.");
     }
 
-    // Determine if the guess is correct
+    // determine if the guess is correct
     const isCorrect =
       challenge.dailyCountry.name.toLowerCase() === guess.toLowerCase();
 
-    // Find or Create a Guess document for the user and the challenge
+    // find or Create a Guess document for the user and the challenge
     let userGuess = await Guess.findOne({
       user: userId,
       challenge: challengeId,
@@ -33,27 +33,41 @@ async function submitGuess(req, res) {
       });
     }
 
-    // Add the new guess to the guesses array*
+    // add the new guess to the guesses array*
     userGuess.guesses.push({
       guessNum: guessNum,
       guess: guess,
       isCorrect: isCorrect,
     });
 
-    // Update isComplete if the guess is correct
+    // update isComplete if the guess is correct
     if (isCorrect) {
       userGuess.isComplete = true;
     }
 
     await userGuess.save();
 
-    // Construct feedback message
+    // construct feedback message
     let feedbackMessage = isCorrect
       ? "Correct! You've guessed the country."
       : "Incorrect guess. Try again!";
 
-    // Respond with guess result and feedback
-    res.json({ success: true, isCorrect, message: feedbackMessage });
+    // construct the guess object to return
+    let guessDetails = {
+      guessNum: guessNum,
+      guess: guess,
+      isCorrect: isCorrect,
+      guessFlag: challenge.dailyCountry.flag,
+      guessCode: challenge.dailyCountry.alpha3Code,
+    };
+
+    // respond with guess result and feedback
+    res.json({
+      success: true,
+      isCorrect,
+      message: feedbackMessage,
+      guess: guessDetails,
+    });
   } catch (err) {
     console.error("Error submitting guess:", err);
     res.status(500).send("Error submitting guess.");
