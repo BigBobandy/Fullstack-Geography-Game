@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { submitGuess } from "../../store/slices/guessSlice";
 import GuessButton from "./GuessButton";
 
-const GuessInput = () => {
+const GuessInput = ({ totalGuessSlots }) => {
   const challengeId = useSelector((state) => state.challenge.challengeId);
   const [guess, setGuess] = useState("");
   const dispatch = useDispatch();
