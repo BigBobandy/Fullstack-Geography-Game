@@ -16,6 +16,8 @@ const guessModel = new mongoose.Schema(
       {
         guessNum: Number, // 1-6
         guess: String, // Country name
+        guessFlag: String, // URL
+        guessCode: String, // 3-letter country code
         isCorrect: Boolean, // true or false
         hintsUsed: Number, // 0-3
         hint: String, // Continent, Capital, Flag
