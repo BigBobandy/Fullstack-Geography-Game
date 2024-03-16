@@ -52,6 +52,7 @@ export const challengeSlice = createSlice({
   initialState: {
     imageUrl: null,
     challengeId: null,
+    previousChallengeId: null,
     isLoading: false,
     isError: false,
     errorMessage: "",
@@ -76,7 +77,13 @@ export const challengeSlice = createSlice({
           action.payload || "Failed to fetch daily challenge image";
       })
       .addCase(fetchDailyChallengeId.fulfilled, (state, action) => {
-        state.challengeId = action.payload.challengeId;
+        // Check if the new challenge ID is different from the current challenge ID
+        if (state.challengeId !== action.payload.challengeId) {
+          state.previousChallengeId = state.challengeId; // Store the previous challenge ID
+          state.challengeId = action.payload.challengeId; // Update to the new challenge ID
+          // Here you can dispatch resetGuessState if your app structure allows
+          // Or handle this logic outside in a component where dispatch is available
+        }
       })
       .addCase(fetchDailyChallengeId.rejected, (state, action) => {
         state.isError = true;
