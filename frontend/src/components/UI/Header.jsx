@@ -21,7 +21,7 @@ const Header = () => {
         </h1>
       </div>
 
-      <div className="flex justify-center sm:gap-2 md:gap-3 lg:gap-4">
+      <div className="flex justify-center sm:gap-1 md:gap-3 lg:gap-4 sm:ml-2">
         <button className="btn btn-xs sm:btn-sm">
           <FontAwesomeIcon icon={faQuestionCircle} />
         </button>

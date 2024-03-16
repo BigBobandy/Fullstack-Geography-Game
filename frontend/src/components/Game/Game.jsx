@@ -9,8 +9,8 @@ const Game = () => {
 
   return (
     <div
-      className="flex flex-col justify-between min-h-[90vh] my-4 p-4 bg-neutral-content border-2 border-primary-content 
-    rounded-md lg:w-[30vw]  lg:mx-auto md:w-[75vw] md:mx-auto"
+      className="flex flex-col  h-[90vh] my-4 p-4 bg-neutral-content 
+    rounded-md lg:w-[30vw]  lg:mx-auto md:w-[75vw] md:mx-auto sm:w-[60vw] overflow-hidden"
     >
       <GameArea />
       <GuessList totalGuessSlots={totalGuessSlots} />
