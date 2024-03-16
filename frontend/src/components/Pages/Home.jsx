@@ -11,7 +11,7 @@ function Home() {
   }
 
   return (
-    <main className="overflow-hidden ">
+    <main className="overflow-hidden flex flex-col justify-center items-center ">
       <Header />
       <Game />
     </main>
