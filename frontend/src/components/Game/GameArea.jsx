@@ -4,6 +4,7 @@ import {
   fetchDailyChallengeId,
   fetchDailyChallengeImage,
 } from "../../store/slices/challengeSlice";
+import { resetGuessState } from "../../store/slices/guessSlice";
 
 const GameArea = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,20 @@ const GameArea = () => {
 
   useEffect(() => {
     dispatch(fetchDailyChallengeImage());
-    dispatch(fetchDailyChallengeId());
+    dispatch(fetchDailyChallengeId()).then(({ payload }) => {
+      // Fetch the current and previous challenge IDs from the state
+      const currentChallengeId = useSelector(
+        (state) => state.challenge.challengeId
+      );
+      const previousChallengeId = useSelector(
+        (state) => state.challenge.previousChallengeId
+      );
+
+      // If the challenge ID has changed, reset the guess state
+      if (currentChallengeId !== previousChallengeId) {
+        dispatch(resetGuessState());
+      }
+    });
   }, [dispatch]);
 
   if (isLoading) {
@@ -36,7 +50,7 @@ const GameArea = () => {
     <div>
       <h1 className="font-bold text-xl">Can you guess what country this is?</h1>
       {imageUrl && (
-        <div className="flex justify-center h-[50vh]">
+        <div className="flex justify-center h-[35vh]">
           <img src={imageUrl} alt="Country Outline" />
         </div>
       )}
