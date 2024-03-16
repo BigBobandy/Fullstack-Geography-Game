@@ -28,6 +28,32 @@ export const submitGuess = createAsyncThunk(
   }
 );
 
+export const getGuesses = createAsyncThunk(
+  "guess/getGuesses",
+  async (challengeId, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/challenge/guess/${challengeId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to get guesses");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.toString());
+    }
+  }
+);
+
 const initialState = {
   guesses: [], // holds objects { guess, guessNum, isCorrect, guessFlag, guessCode}
   isCorrect: null,
@@ -83,6 +109,18 @@ const guessSlice = createSlice({
         }
       })
       .addCase(submitGuess.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getGuesses.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getGuesses.fulfilled, (state, action) => {
+        state.loading = false;
+        state.guesses = action.payload;
+      })
+      .addCase(getGuesses.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

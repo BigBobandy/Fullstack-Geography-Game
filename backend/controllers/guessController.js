@@ -1,5 +1,6 @@
 const Guess = require("../models/guessModel");
 const DailyChallenge = require("../models/dailyChallengeModel");
+const Country = require("../models/countryModel");
 
 async function submitGuess(req, res) {
   const userId = req.user;
@@ -14,6 +15,9 @@ async function submitGuess(req, res) {
     if (!challenge) {
       return res.status(404).send("Daily challenge not found.");
     }
+
+    // find the guessed country's document
+    const guessedCountry = await Country.findOne({ name: guess });
 
     // determine if the guess is correct
     const isCorrect =
@@ -37,6 +41,8 @@ async function submitGuess(req, res) {
     userGuess.guesses.push({
       guessNum: guessNum,
       guess: guess,
+      guessFlag: guessedCountry.flag,
+      guessCode: guessedCountry.alpha3Code,
       isCorrect: isCorrect,
     });
 
@@ -57,8 +63,8 @@ async function submitGuess(req, res) {
       guessNum: guessNum,
       guess: guess,
       isCorrect: isCorrect,
-      guessFlag: challenge.dailyCountry.flag,
-      guessCode: challenge.dailyCountry.alpha3Code,
+      guessFlag: guessedCountry.flag,
+      guessCode: guessedCountry.alpha3Code,
     };
 
     // respond with guess result and feedback
@@ -74,4 +80,25 @@ async function submitGuess(req, res) {
   }
 }
 
-module.exports = { submitGuess };
+async function getGuesses(req, res) {
+  const userId = req.user;
+  const challengeId = req.params.id;
+
+  try {
+    const userGuess = await Guess.findOne({
+      user: userId,
+      challenge: challengeId,
+    }).populate("guesses");
+
+    if (!userGuess) {
+      return res.json([]);
+    }
+
+    res.json(userGuess.guesses || []);
+  } catch (err) {
+    console.error("Error fetching guesses:", err);
+    res.status(500).send("Error fetching guesses.");
+  }
+}
+
+module.exports = { submitGuess, getGuesses };
