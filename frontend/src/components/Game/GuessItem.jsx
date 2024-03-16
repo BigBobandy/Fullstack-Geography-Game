@@ -12,16 +12,16 @@ const GuessItem = ({ guess }) => {
   const isCorrect = guess.isCorrect;
 
   return (
-    <div className="flex justify-between items-center flex-row bg-base-300 rounded-lg my-1 col-span-7 h-8">
+    <div className="flex justify-between items-center flex-row bg-base-200 rounded-lg my-1 col-span-7 h-8">
       <div className="flex justify-center items-center">
         {guessFlag && (
           <img
             src={guessFlag}
             alt={guessCode}
-            className="h-8 w-8 rounded-lg mr-4"
+            className="h-8 w-10 rounded-lg mr-4"
           />
         )}
-        {guessCode && <span className="font-bold mr-4">{guessCode}</span>}
+        {guessCode && <span className="font-bold mr-1">{guessCode}</span>}
         {guessText && <span className="text-md">{guessText}</span>}
       </div>
 
