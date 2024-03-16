@@ -1,24 +1,24 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getGuesses } from "../../store/slices/guessSlice";
 import GuessItem from "./GuessItem";
 
 const GuessList = ({ totalGuessSlots }) => {
   const guesses = useSelector((state) => state.guess?.guesses ?? []);
+  const challengeId = useSelector((state) => state.challenge.challengeId);
 
-  if (!Array.isArray(guesses)) {
-    // Handle the case where guesses is not an array
-    console.error("guesses is not an array:", guesses);
-    return null;
-  }
+  const dispatch = useDispatch();
 
-  console.log(totalGuessSlots, guesses);
+  useEffect(() => {
+    dispatch(getGuesses(challengeId));
+  }, [dispatch, challengeId]);
 
   const placeholders = totalGuessSlots - guesses.length;
 
   const placeholderArray = new Array(placeholders).fill(0);
 
   return (
-    <div className="flex flex-col lg:gap-1 gap-4">
+    <div className="flex flex-col gap-1">
       {guesses.map((guess, index) => (
         <GuessItem key={index} guess={guess} />
       ))}
