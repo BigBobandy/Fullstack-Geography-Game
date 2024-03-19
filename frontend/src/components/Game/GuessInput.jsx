@@ -7,6 +7,7 @@ import GuessButton from "./GuessButton";
 
 const GuessInput = ({ totalGuessSlots }) => {
   const challengeId = useSelector((state) => state.challenge.challengeId);
+  const { isCorrect, guesses } = useSelector((state) => state.guess);
   const [guess, setGuess] = useState("");
   const dispatch = useDispatch();
   const [guessNum, setGuessNum] = useState(1);
@@ -14,6 +15,7 @@ const GuessInput = ({ totalGuessSlots }) => {
   const wrapperRef = useRef(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const isGameEnded = isCorrect || guesses.length >= 6;
 
   // Function to show the toast
   const showToastWithMessage = (message) => {
@@ -123,8 +125,9 @@ const GuessInput = ({ totalGuessSlots }) => {
           className="input input-bordered w-full"
           onChange={handleInputChange}
           onFocus={handleFocus}
+          disabled={isGameEnded}
         />
-        <GuessButton />
+        <GuessButton disabled={isGameEnded} />
       </form>
       {filteredCountries.length > 0 && (
         <ul
