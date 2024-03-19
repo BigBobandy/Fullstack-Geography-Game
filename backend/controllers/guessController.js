@@ -37,6 +37,13 @@ async function submitGuess(req, res) {
       });
     }
 
+    // check if the user has already made 6 guesses or has already guessed the correct country
+    if (userGuess.isComplete || userGuess.guesses.length >= 6) {
+      return res
+        .status(400)
+        .json({ message: "Game over. You cannot make any more guesses." });
+    }
+
     // add the new guess to the guesses array*
     userGuess.guesses.push({
       guessNum: guessNum,
