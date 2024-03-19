@@ -1,6 +1,11 @@
 const Guess = require("../models/guessModel");
 const DailyChallenge = require("../models/dailyChallengeModel");
 const Country = require("../models/countryModel");
+const {
+  calculateDistance,
+  calculateBearing,
+  bearingToCardinal,
+} = require("../game/utils/distanceCalculator");
 
 async function submitGuess(req, res) {
   const userId = req.user;
@@ -37,6 +42,37 @@ async function submitGuess(req, res) {
       });
     }
 
+    // check if the user has already made 6 guesses or has already guessed the correct country
+    if (userGuess.isComplete || userGuess.guesses.length >= 6) {
+      return res
+        .status(400)
+        .json({ message: "Game over. You cannot make any more guesses." });
+    }
+
+    let distance;
+    let direction;
+
+    // if the guess is incorrect, calculate distance, get bearing, and convert to cardinal direction
+    if (!isCorrect) {
+      const guessedCountryLocation = guessedCountry.location;
+      const correctCountryLocation = challenge.dailyCountry.location;
+      distance = calculateDistance(
+        guessedCountryLocation.latitude,
+        guessedCountryLocation.longitude,
+        correctCountryLocation.latitude,
+        correctCountryLocation.longitude
+      );
+
+      const bearing = calculateBearing(
+        guessedCountryLocation.latitude,
+        guessedCountryLocation.longitude,
+        correctCountryLocation.latitude,
+        correctCountryLocation.longitude
+      );
+
+      direction = bearingToCardinal(bearing);
+    }
+
     // add the new guess to the guesses array*
     userGuess.guesses.push({
       guessNum: guessNum,
@@ -44,6 +80,8 @@ async function submitGuess(req, res) {
       guessFlag: guessedCountry.flag,
       guessCode: guessedCountry.alpha3Code,
       isCorrect: isCorrect,
+      distance: distance,
+      direction: direction,
     });
 
     // update isComplete if the guess is correct
@@ -65,6 +103,8 @@ async function submitGuess(req, res) {
       isCorrect: isCorrect,
       guessFlag: guessedCountry.flag,
       guessCode: guessedCountry.alpha3Code,
+      distance: isCorrect ? null : Math.round(distance), // only include these if the answer is incorrect
+      direction: isCorrect ? null : direction,
     };
 
     // respond with guess result and feedback

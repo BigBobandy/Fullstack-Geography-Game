@@ -40,6 +40,9 @@ connectDB();
 // Start the game
 startGame();
 
+// require the scheduler for the game's daily challenge
+require("./game/utils/scheduler");
+
 // Import routes
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
