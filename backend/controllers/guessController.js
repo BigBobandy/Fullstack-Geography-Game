@@ -5,6 +5,7 @@ const {
   calculateDistance,
   calculateBearing,
   bearingToCardinal,
+  calculateProximityPercentage,
 } = require("../game/utils/distanceCalculator");
 
 async function submitGuess(req, res) {
@@ -49,18 +50,27 @@ async function submitGuess(req, res) {
         .json({ message: "Game over. You cannot make any more guesses." });
     }
 
+    // declare variables to store distance, direction, and proximity percentage
     let distance;
     let direction;
+    let proximityPercentage;
 
     // if the guess is incorrect, calculate distance, get bearing, and convert to cardinal direction
     if (!isCorrect) {
       const guessedCountryLocation = guessedCountry.location;
       const correctCountryLocation = challenge.dailyCountry.location;
+
       distance = calculateDistance(
         guessedCountryLocation.latitude,
         guessedCountryLocation.longitude,
         correctCountryLocation.latitude,
         correctCountryLocation.longitude
+      );
+
+      // Calculate the proximity percentage
+      proximityPercentage = calculateProximityPercentage(
+        distance,
+        guessedCountry.maxDistance
       );
 
       const bearing = calculateBearing(
@@ -80,8 +90,9 @@ async function submitGuess(req, res) {
       guessFlag: guessedCountry.flag,
       guessCode: guessedCountry.alpha3Code,
       isCorrect: isCorrect,
-      distance: distance,
-      direction: direction,
+      distance: isCorrect ? null : Math.round(distance), // only include these if the answer is incorrect
+      direction: isCorrect ? null : direction,
+      proximityPercentage: isCorrect ? 100 : proximityPercentage,
     });
 
     // update isComplete if the guess is correct
@@ -103,8 +114,9 @@ async function submitGuess(req, res) {
       isCorrect: isCorrect,
       guessFlag: guessedCountry.flag,
       guessCode: guessedCountry.alpha3Code,
-      distance: isCorrect ? null : Math.round(distance), // only include these if the answer is incorrect
+      distance: isCorrect ? null : Math.round(distance), // only include if the answer is incorrect
       direction: isCorrect ? null : direction,
+      proximityPercentage: isCorrect ? 100 : proximityPercentage,
     };
 
     // respond with guess result and feedback
