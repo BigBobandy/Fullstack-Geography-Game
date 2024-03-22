@@ -17,7 +17,6 @@ const GuessInput = ({ totalGuessSlots }) => {
   const wrapperRef = useRef(null);
   const isGameEnded = isCorrect || guesses.length >= 6;
   const { showToast, toastMessage, triggerToast, closeToast } = useToast();
-
   const {
     guess,
     setGuess,
