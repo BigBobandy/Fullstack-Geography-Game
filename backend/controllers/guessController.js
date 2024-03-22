@@ -7,6 +7,7 @@ const {
   bearingToCardinal,
   calculateProximityPercentage,
 } = require("../game/utils/distanceCalculator");
+const { updateUserStats } = require("../game/services/statsService");
 
 async function submitGuess(req, res) {
   const userId = req.user;
@@ -118,6 +119,9 @@ async function submitGuess(req, res) {
       direction: isCorrect ? null : direction,
       proximityPercentage: isCorrect ? 100 : proximityPercentage,
     };
+
+    // update user stats
+    await updateUserStats({ userId, guessDetails });
 
     // respond with guess result and feedback
     res.json({
