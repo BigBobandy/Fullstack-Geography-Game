@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const correctGuessesSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  flag: { type: String, required: true },
+});
+
 const userStatsSchema = new mongoose.Schema(
   {
     user: {
@@ -36,9 +41,14 @@ const userStatsSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    countriesGuessed: {
-      type: Map,
-      of: Number, // map country to how many times it's been guessed
+    correctGuesses: [correctGuessesSchema],
+    lastParticipationDate: {
+      type: Date,
+      default: null,
+    },
+    streakUpdatedToday: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
