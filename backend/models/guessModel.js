@@ -23,6 +23,7 @@ const guessModel = new mongoose.Schema(
         hint: String, // Continent, Capital, Flag
         distance: Number, // in km
         direction: String, // N, NE, E, SE, S, SW, W, NW
+        proximityPercentage: Number, // 0-100
       },
     ],
     isComplete: {

@@ -23,6 +23,10 @@ const countrySchema = new mongoose.Schema({
       required: true,
     },
   },
+  maxDistance: {
+    type: Number,
+    default: 0,
+  },
   flag: {
     type: String,
     required: true,

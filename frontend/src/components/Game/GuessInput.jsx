@@ -15,6 +15,7 @@ const GuessInput = ({ totalGuessSlots }) => {
   const wrapperRef = useRef(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const isGameEnded = isCorrect || guesses.length >= 6;
 
   // Function to show the toast
@@ -68,11 +69,29 @@ const GuessInput = ({ totalGuessSlots }) => {
     setFilteredCountries(countries);
   };
 
+  // Function to handle keyboard navigation
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowDown") {
+      // Prevent the default action to stop scrolling the whole page
+      event.preventDefault();
+      setHighlightedIndex((prevIndex) =>
+        prevIndex < filteredCountries.length - 1 ? prevIndex + 1 : prevIndex
+      );
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setHighlightedIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
+    } else if (event.key === "Enter" && highlightedIndex >= 0) {
+      event.preventDefault(); // Prevent form submission
+      handleCountrySelect(filteredCountries[highlightedIndex]);
+    }
+  };
+
   // Handle selection of a country from the list
   const handleCountrySelect = (selectedCountry) => {
     const countryName = selectedCountry.split(" - ")[1];
     setGuess(countryName);
     setFilteredCountries([]);
+    setHighlightedIndex(-1); // Reset the index when a country is selected
   };
 
   // Close the list if clicking outside the component
@@ -117,6 +136,7 @@ const GuessInput = ({ totalGuessSlots }) => {
       <form
         onSubmit={handleSubmit}
         className="flex flex-row justify-between mt-2 w-full"
+        onKeyDown={handleKeyDown}
       >
         <input
           type="text"
@@ -137,8 +157,12 @@ const GuessInput = ({ totalGuessSlots }) => {
           {filteredCountries.map((country, index) => (
             <li
               key={index}
-              className="cursor-pointer hover:bg-base-300 text-xl my-2"
+              className={`cursor-pointer hover:bg-base-300 text-xl my-2 ${
+                index === highlightedIndex ? "bg-base-300" : ""
+              }`}
               onClick={() => handleCountrySelect(country)}
+              onMouseEnter={() => setHighlightedIndex(index)}
+              onMouseLeave={() => setHighlightedIndex(-1)}
             >
               {country}
             </li>
