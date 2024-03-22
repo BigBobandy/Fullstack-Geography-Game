@@ -1,67 +1,39 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useCountrySelect from "../../hooks/useCountrySelect";
+import useToast from "../../hooks/useToast";
 import { submitGuess } from "../../store/slices/guessSlice";
 import countries from "../../utils/countries";
+import validateGuess from "../../utils/validateGuess";
 import { Toast } from "../UI/Toast";
 import GuessButton from "./GuessButton";
+import GuessDropdown from "./GuessDropdown";
 
 const GuessInput = ({ totalGuessSlots }) => {
   const challengeId = useSelector((state) => state.challenge.challengeId);
   const { isCorrect, guesses } = useSelector((state) => state.guess);
-  const [guess, setGuess] = useState("");
   const dispatch = useDispatch();
   const [guessNum, setGuessNum] = useState(1);
-  const [filteredCountries, setFilteredCountries] = useState([]);
   const wrapperRef = useRef(null);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const isGameEnded = isCorrect || guesses.length >= 6;
+  const { showToast, toastMessage, triggerToast, closeToast } = useToast();
 
-  // Function to show the toast
-  const showToastWithMessage = (message) => {
-    setToastMessage(message);
-    setShowToast(true);
-
-    // After 5 seconds, hide the toast
-    setTimeout(() => {
-      setShowToast(false);
-    }, 5000);
-
-    // Clear timeout if the component is unmounted to prevent memory leaks
-    return () => clearTimeout(timer);
-  };
-
-  // useEffect that cleans up the timeout
-  useEffect(() => {
-    let toastTimeout;
-
-    if (showToast) {
-      toastTimeout = setTimeout(() => {
-        setShowToast(false);
-      }, 5000);
-    }
-
-    // Cleanup
-    return () => {
-      if (toastTimeout) {
-        clearTimeout(toastTimeout);
-      }
-    };
-  }, [showToast]);
+  const {
+    guess,
+    setGuess,
+    filteredCountries,
+    setFilteredCountries,
+    highlightedIndex,
+    setHighlightedIndex,
+    filterCountries,
+    selectCountry,
+  } = useCountrySelect();
 
   // Handle changes in the input field
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     setGuess(inputValue);
-
-    // Filter countries based on input
-    const searchQuery = inputValue.toLowerCase();
-    const matches = countries.filter((country) =>
-      country.toLowerCase().includes(searchQuery)
-    );
-
-    setFilteredCountries(matches);
+    filterCountries(inputValue);
   };
 
   // Handle focus on the input field to show all countries
@@ -82,52 +54,35 @@ const GuessInput = ({ totalGuessSlots }) => {
       setHighlightedIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
     } else if (event.key === "Enter" && highlightedIndex >= 0) {
       event.preventDefault(); // Prevent form submission
-      handleCountrySelect(filteredCountries[highlightedIndex]);
+      selectCountry(filteredCountries[highlightedIndex]);
     }
-  };
-
-  // Handle selection of a country from the list
-  const handleCountrySelect = (selectedCountry) => {
-    const countryName = selectedCountry.split(" - ")[1];
-    setGuess(countryName);
-    setFilteredCountries([]);
-    setHighlightedIndex(-1); // Reset the index when a country is selected
   };
 
   // Close the list if clicking outside the component
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setFilteredCountries([]);
       }
-    };
+    }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [wrapperRef]);
+  }, []);
 
   // Handle the submission of the guess
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const isValidGuess = countries.some(
-      (country) => country.split(" - ")[1].toLowerCase() === guess.toLowerCase()
-    );
-
-    if (!isValidGuess) {
-      showToastWithMessage("Please select a valid country from the list.");
+    // Use validateGuess from utils
+    if (!validateGuess(guess)) {
+      triggerToast("Please select a valid country from the list.");
       return;
     }
 
     dispatch(submitGuess({ challengeId, guess, guessNum }));
     setGuess("");
-    setFilteredCountries([]);
     setGuessNum(guessNum + 1);
-  };
-
-  // Function to close the toast
-  const closeToast = () => {
-    setShowToast(false);
   };
 
   return (
@@ -150,24 +105,12 @@ const GuessInput = ({ totalGuessSlots }) => {
         <GuessButton disabled={isGameEnded} />
       </form>
       {filteredCountries.length > 0 && (
-        <ul
-          className="list-none bg-base-200 mt-2 rounded-lg h-[20vh] overflow-hidden shadow-lg max-h-60 
-                       overflow-y-auto text-left px-4 py-2"
-        >
-          {filteredCountries.map((country, index) => (
-            <li
-              key={index}
-              className={`cursor-pointer hover:bg-base-300 text-xl my-2 ${
-                index === highlightedIndex ? "bg-base-300" : ""
-              }`}
-              onClick={() => handleCountrySelect(country)}
-              onMouseEnter={() => setHighlightedIndex(index)}
-              onMouseLeave={() => setHighlightedIndex(-1)}
-            >
-              {country}
-            </li>
-          ))}
-        </ul>
+        <GuessDropdown
+          filteredCountries={filteredCountries}
+          highlightedIndex={highlightedIndex}
+          handleCountrySelect={selectCountry}
+          setHighlightedIndex={setHighlightedIndex}
+        />
       )}
     </div>
   );
