@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.stat {
+  @apply text-center p-2;
+}
+
+.stat-value {
+  @apply text-lg font-bold;
+}
+
+.stat-title {
+  @apply text-sm;
+}
