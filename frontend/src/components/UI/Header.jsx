@@ -4,16 +4,20 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import StatsModal from "./StatsModal";
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user);
+  const [showStatsModal, setShowStatsModal] = useState(false);
 
   return (
     <header
       className="flex items-center justify-between bg-neutral-content py-1 text-neutral rounded-md 
     lg:w-[30vw] lg:mx-auto md:w-[75vw] md:mx-auto min-w-fit"
     >
+      {showStatsModal && <StatsModal setShowStatsModal={setShowStatsModal} />}
       <div className="flex items-center">
         <h1 className="text-md font-bold flex items-center">
           Geography
@@ -29,7 +33,10 @@ const Header = () => {
           Leaderboard
           <FontAwesomeIcon icon={faRankingStar} />
         </button>
-        <button className="btn btn-xs sm:btn-sm">
+        <button
+          className="btn btn-xs sm:btn-sm"
+          onClick={() => setShowStatsModal(true)}
+        >
           Stats
           <FontAwesomeIcon icon={faStar} />
         </button>
