@@ -19,7 +19,7 @@ const guessModel = new mongoose.Schema(
         guessFlag: String, // URL
         guessCode: String, // 3-letter country code
         isCorrect: Boolean, // true or false
-        hintsUsed: Number, // 0-3
+        hintUsed: Boolean, // true or false
         hint: String, // Continent, Capital, Flag
         distance: Number, // in km
         direction: String, // N, NE, E, SE, S, SW, W, NW

@@ -8,7 +8,9 @@ const {
   calculateProximityPercentage,
 } = require("../game/utils/distanceCalculator");
 const { updateUserStats } = require("../game/services/statsService");
+const { provideHint } = require("../game/services/hintService");
 
+// handles submitting a guess /api/challenge/guess/submit
 async function submitGuess(req, res) {
   const userId = req.user;
   const { challengeId, guess, guessNum } = req.body;
@@ -136,6 +138,22 @@ async function submitGuess(req, res) {
   }
 }
 
+// handles providing a hint to the user /api/challenge/guess/hint/:id
+async function submitHint(req, res) {
+  const userId = req.user;
+  const challengeId = req.params.id;
+
+  try {
+    const hint = await provideHint(userId, challengeId);
+
+    res.json({ hint });
+  } catch (err) {
+    console.error("Error submitting hint:", err);
+    res.status(500).send("Error submitting hint.");
+  }
+}
+
+// handles fetching all guesses for a challenge /api/challenge/guess/get/:id
 async function getGuesses(req, res) {
   const userId = req.user;
   const challengeId = req.params.id;
@@ -157,4 +175,4 @@ async function getGuesses(req, res) {
   }
 }
 
-module.exports = { submitGuess, getGuesses };
+module.exports = { submitGuess, getGuesses, submitHint };
