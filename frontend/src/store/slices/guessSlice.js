@@ -33,7 +33,7 @@ export const getGuesses = createAsyncThunk(
   async (challengeId, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/challenge/guess/${challengeId}`,
+        `http://localhost:3000/api/challenge/guess/get/${challengeId}`,
         {
           method: "GET",
           headers: {
