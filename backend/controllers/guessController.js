@@ -146,7 +146,21 @@ async function submitHint(req, res) {
   try {
     const hint = await provideHint(userId, challengeId);
 
-    res.json({ hint });
+    // construct guess like object containing the hint to return
+    const hintDetails = {
+      guessNum: hint.guessNum,
+      guess: null,
+      isCorrect: false,
+      guessFlag: null,
+      guessCode: null,
+      hint: hint.hint,
+      hintUsed: true,
+      distance: null,
+      direction: null,
+      proximityPercentage: null,
+    };
+
+    res.json({ hintDetails });
   } catch (err) {
     console.error("Error submitting hint:", err);
     res.status(500).send("Error submitting hint.");

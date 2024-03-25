@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getGuesses } from "../../store/slices/guessSlice";
+import { getGuesses } from "../../store/actions/guessActions";
 import GuessItem from "./GuessItem";
 
 const GuessList = ({ totalGuessSlots }) => {
@@ -20,7 +20,7 @@ const GuessList = ({ totalGuessSlots }) => {
   return (
     <div className="flex flex-col gap-1">
       {guesses.map((guess, index) => (
-        <GuessItem key={index} guess={guess} />
+        <GuessItem key={index} guessDetails={guess} />
       ))}
       {placeholderArray.map((_, index) => (
         <div

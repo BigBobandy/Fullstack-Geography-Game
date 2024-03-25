@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useCountrySelect from "../../hooks/useCountrySelect";
 import useToast from "../../hooks/useToast";
-import { submitGuess } from "../../store/slices/guessSlice";
+import { submitGuess, submitHint } from "../../store/actions/guessActions";
 import countries from "../../utils/countries";
 import validateGuess from "../../utils/validateGuess";
 import { Toast } from "../UI/Toast";
 import GuessButton from "./GuessButton";
 import GuessDropdown from "./GuessDropdown";
+import HintButton from "./HintButton";
 
 const GuessInput = ({ totalGuessSlots }) => {
   const challengeId = useSelector((state) => state.challenge.challengeId);
@@ -16,6 +17,8 @@ const GuessInput = ({ totalGuessSlots }) => {
   const [guessNum, setGuessNum] = useState(1);
   const wrapperRef = useRef(null);
   const isGameEnded = isCorrect || guesses.length >= 6;
+  const hintUsed = guesses.some((guess) => guess.hintUsed);
+  const disabledHintButton = isGameEnded || hintUsed || guesses.length === 5;
   const { showToast, toastMessage, triggerToast, closeToast } = useToast();
   const {
     guess,
@@ -84,12 +87,17 @@ const GuessInput = ({ totalGuessSlots }) => {
     setGuessNum(guessNum + 1);
   };
 
+  // handle the request for a hint
+  const handleHintRequest = () => {
+    dispatch(submitHint(challengeId));
+  };
+
   return (
     <div ref={wrapperRef}>
       <Toast message={toastMessage} show={showToast} onClose={closeToast} />
       <form
         onSubmit={handleSubmit}
-        className="flex flex-row justify-between mt-2 w-full"
+        className="flex flex-col justify-between mt-2 w-full"
         onKeyDown={handleKeyDown}
       >
         <input
@@ -101,7 +109,14 @@ const GuessInput = ({ totalGuessSlots }) => {
           onFocus={handleFocus}
           disabled={isGameEnded}
         />
-        <GuessButton disabled={isGameEnded} />
+        <div className="flex flex-row gap-5 mt-2 w-full justify-between">
+          <GuessButton disabled={isGameEnded} />
+          <HintButton
+            disabled={disabledHintButton}
+            onClick={handleHintRequest}
+            type="button"
+          />
+        </div>
       </form>
       {filteredCountries.length > 0 && (
         <GuessDropdown
