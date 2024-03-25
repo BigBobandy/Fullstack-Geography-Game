@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 
 const dailyChallengeSchema = new mongoose.Schema(
   {
-    dailyCountry: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Country",
-      required: true,
-    },
-
+    dailyCountries: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Country",
+        required: true,
+      },
+    ],
     challengeDate: {
       type: Date,
       required: true,
