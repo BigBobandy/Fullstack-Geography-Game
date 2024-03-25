@@ -20,10 +20,7 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== "production", // uses redux devtools in development
 });
 
-// set up the persistor with a rehydration completion callback
-export const persistor = persistStore(store, null, () => {
-  // This callback is called after rehydration is finished
-  console.log("Rehydration complete");
-});
+// set up the persistor
+export const persistor = persistStore(store, null, () => {});
 
 export default store;
