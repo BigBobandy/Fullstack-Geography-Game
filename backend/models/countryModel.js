@@ -51,6 +51,10 @@ const countrySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  continent: {
+    type: Array,
+    required: true,
+  },
   outlineImageUrl: {
     type: String,
     required: true,

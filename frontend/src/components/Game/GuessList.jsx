@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getGuesses } from "../../store/slices/guessSlice";
+import { getGuesses } from "../../store/actions/guessActions";
 import GuessItem from "./GuessItem";
 
 const GuessList = ({ totalGuessSlots }) => {

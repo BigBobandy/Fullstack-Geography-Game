@@ -1,61 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { REHYDRATE } from "redux-persist";
-
-// async thunk action for submitting a guess
-export const submitGuess = createAsyncThunk(
-  "guess/submitGuess",
-  async ({ challengeId, guess, guessNum }, { rejectWithValue }) => {
-    try {
-      const response = await fetch(
-        "http://localhost:3000/api/challenge/guess/submit",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ challengeId, guess, guessNum }),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to submit guess");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.toString());
-    }
-  }
-);
-
-export const getGuesses = createAsyncThunk(
-  "guess/getGuesses",
-  async (challengeId, { rejectWithValue }) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/challenge/guess/get/${challengeId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to get guesses");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.toString());
-    }
-  }
-);
+import { getGuesses, submitGuess, submitHint } from "../actions/guessActions";
 
 const initialState = {
-  guesses: [], // holds objects { guess, guessNum, isCorrect, guessFlag, guessCode}
+  guesses: [], // holds objects { guessNum, guess, guessFlag, guessCode, isCorrect, distance, driection, proximityPercentage, hintUsed}
   isCorrect: null,
   loading: false,
   error: null,
@@ -80,7 +28,6 @@ const guessSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(REHYDRATE, (state, action) => {
-        console.log("Rehydration payload:", action.payload);
         // Check if the payload is undefined before trying to access properties
         if (action.payload) {
           state.guesses = action.payload.guess?.guesses ?? initialState.guesses;
@@ -100,7 +47,6 @@ const guessSlice = createSlice({
 
         // Check if guesses is an array before trying to push to it
         if (!Array.isArray(state.guesses)) {
-          console.error("state.guesses is not an array:", state.guesses);
           // If it's not an array, replace it with an array containing the new guess
           state.guesses = [action.payload.guess];
         } else {
@@ -121,6 +67,23 @@ const guessSlice = createSlice({
         state.guesses = action.payload;
       })
       .addCase(getGuesses.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(submitHint.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(submitHint.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const hintGuess = action.payload;
+
+        if (hintGuess) {
+          state.guesses.push(hintGuess);
+        }
+      })
+      .addCase(submitHint.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

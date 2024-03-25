@@ -21,10 +21,10 @@ async function provideHint(userId, challengeId) {
     }
 
     // find the daily challenge to get the selected country for the day
-    const dailyChallenge = await DailyChallenge.findById(challengeId).populate(
-      "dailyCountry",
-      "capital continent flag"
-    );
+    const dailyChallenge = await DailyChallenge.findById(challengeId).populate({
+      path: "dailyCountry",
+      select: "capital continent flag",
+    });
 
     if (!dailyChallenge) {
       throw new Error("Challenge not found.");
@@ -39,7 +39,7 @@ async function provideHint(userId, challengeId) {
         hint = `Capital City: ${dailyChallenge.dailyCountry.capital}`;
         break;
       case 2:
-        hint = `Continental Region: ${dailyChallenge.dailyCountry.continent}`;
+        hint = `Continental Region: ${dailyChallenge.dailyCountry.continent[0]}`;
         break;
       case 3:
         hint = `Flag: ${dailyChallenge.dailyCountry.flag}`;
@@ -52,7 +52,7 @@ async function provideHint(userId, challengeId) {
     userGuesses.guesses.push({
       guessNum: userGuesses.guesses.length + 1,
       hintUsed: true,
-      hint: hintType === 1 ? "Capital" : hintType === 2 ? "Continent" : "Flag",
+      hint: hint,
     });
 
     await userGuesses.save();
