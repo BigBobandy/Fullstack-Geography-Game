@@ -12,7 +12,7 @@ async function getAllCountries() {
   }
 }
 
-async function selectCountry() {
+async function selectCountries() {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Adjust 'today' to the start of the day
 
@@ -22,7 +22,7 @@ async function selectCountry() {
   });
 
   if (existingChallenge) {
-    return existingChallenge.dailyCountry;
+    return existingChallenge.dailyCountries;
   }
 
   try {
@@ -34,30 +34,37 @@ async function selectCountry() {
     );
 
     // Decide the pool of countries to apply weighted selection on
-    const selectionPool =
+    let selectionPool =
       neverUsedCountries.length > 0 ? neverUsedCountries : countries;
 
-    // Use the weighted selection utility
-    const selectedCountry = weightedSelectByArea(selectionPool);
-    console.log("Selected country: ", selectedCountry.name);
+    let selectedCountries = [];
 
-    try {
+    // Select 3 countries
+    for (let i = 0; i < 3; i++) {
+      // apply weighted selection to the pool
+      const selectedCountry = weightedSelectByArea(selectionPool);
+      selectedCountries.push(selectedCountry);
+
+      // Update the selectionPool to exclude the selected country
+      selectionPool = selectionPool.filter(
+        (country) => !country._id.equals(selectedCountry._id)
+      );
+
       // Update the lastUsed field of the selected country
       selectedCountry.lastUsed = new Date();
       await selectedCountry.save();
-    } catch (err) {
-      console.error(
-        `Error updating lastUsed field for selected country, ${selectedCountry}:`,
-        err
-      );
-      throw err;
     }
 
-    return selectedCountry;
+    console.log(
+      "Selected countries: ",
+      selectedCountries.map((country) => country.name)
+    );
+
+    return selectedCountries.map((country) => country._id); // return array of ids
   } catch (err) {
     console.error("Error selecting country: ", err);
     throw err;
   }
 }
 
-module.exports = selectCountry;
+module.exports = selectCountries;

@@ -1,6 +1,6 @@
 const DailyChallenge = require("../../models/dailyChallengeModel");
 
-async function setDailyChallenge(selectedCountryId) {
+async function setDailyChallenge(selectedCountryIds) {
   try {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Adjust 'today' to the start of the day
@@ -23,11 +23,9 @@ async function setDailyChallenge(selectedCountryId) {
 
       // Create a new challenge
       const newChallenge = new DailyChallenge({
-        dailyCountry: selectedCountryId,
+        dailyCountries: selectedCountryIds,
         challengeDate: today,
         challengeNumber: challengeNumber,
-        guesses: [],
-        isComplete: false,
       });
 
       await newChallenge.save();
