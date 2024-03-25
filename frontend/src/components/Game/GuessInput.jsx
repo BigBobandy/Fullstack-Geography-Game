@@ -114,6 +114,7 @@ const GuessInput = ({ totalGuessSlots }) => {
           <HintButton
             disabled={disabledHintButton}
             onClick={handleHintRequest}
+            type="button"
           />
         </div>
       </form>
