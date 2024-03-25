@@ -5,13 +5,19 @@ const UserStats = require("../../models/userStatsModel");
 async function provideHint(userId, challengeId) {
   try {
     // check the number of guesses made by the user for the current challenge
-    const userGuesses = await Guess.findOne({
+    let userGuesses = await Guess.findOne({
       challenge: challengeId,
       user: userId,
     });
 
-    if (
-      !userGuesses || // user has not made any guesses
+    // if there is no guess doc for this user and challenge, create one
+    if (!userGuesses) {
+      userGuesses = new Guess({
+        user: userId,
+        challenge: challengeId,
+        guesses: [],
+      });
+    } else if (
       userGuesses.guesses.length >= 5 || // user has reached the guess limit
       userGuesses.guesses.some((g) => g.hintUsed) // user has already used a hint
     ) {
@@ -32,17 +38,17 @@ async function provideHint(userId, challengeId) {
 
     // randomly decide the type of hint to return
     const hintType = Math.floor(Math.random() * 3) + 1; // generates 1, 2, or 3
-    let hint;
+    let hintContent;
 
     switch (hintType) {
       case 1:
-        hint = `Capital City: ${dailyChallenge.dailyCountry.capital}`;
+        hintContent = `Capital City: ${dailyChallenge.dailyCountry.capital}`;
         break;
       case 2:
-        hint = `Continental Region: ${dailyChallenge.dailyCountry.continent[0]}`;
+        hintContent = `Continental Region: ${dailyChallenge.dailyCountry.continent[0]}`;
         break;
       case 3:
-        hint = `Flag: ${dailyChallenge.dailyCountry.flag}`;
+        hintContent = `Flag: ${dailyChallenge.dailyCountry.flag}`;
         break;
       default:
         throw new Error("Failed to generate hint.");
@@ -52,7 +58,7 @@ async function provideHint(userId, challengeId) {
     userGuesses.guesses.push({
       guessNum: userGuesses.guesses.length + 1,
       hintUsed: true,
-      hint: hint,
+      hint: hintContent,
     });
 
     await userGuesses.save();
@@ -63,7 +69,12 @@ async function provideHint(userId, challengeId) {
 
     await userStats.save();
 
-    return hint;
+    // Construct and return a structured hint object
+    return {
+      guessNum: userGuesses.guesses.length, // Since the hint also counts as a guess
+      hint: hintContent,
+      hintUsed: true,
+    };
   } catch (err) {
     console.error("Error providing hint: ", err);
   }
