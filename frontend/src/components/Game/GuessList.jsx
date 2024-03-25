@@ -20,7 +20,7 @@ const GuessList = ({ totalGuessSlots }) => {
   return (
     <div className="flex flex-col gap-1">
       {guesses.map((guess, index) => (
-        <GuessItem key={index} guess={guess} />
+        <GuessItem key={index} guessDetails={guess} />
       ))}
       {placeholderArray.map((_, index) => (
         <div
