@@ -77,11 +77,7 @@ const guessSlice = createSlice({
       .addCase(submitHint.fulfilled, (state, action) => {
         state.loading = false;
 
-        const hintGuess = action.payload;
-
-        if (hintGuess) {
-          state.guesses.push(hintGuess);
-        }
+        state.guesses.push(action.payload.hintDetails);
       })
       .addCase(submitHint.rejected, (state, action) => {
         state.loading = false;
