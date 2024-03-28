@@ -205,7 +205,11 @@ async function getGuesses(req, res) {
       return res.json([]);
     }
 
-    res.json(userGuess.guesses || []);
+    res.json({
+      guesses: userGuess.guesses,
+      currentCountryIndex: userGuess.currentCountryIndex,
+      isComplete: userGuess.isComplete,
+    });
   } catch (err) {
     console.error("Error fetching guesses:", err);
     res.status(500).send("Error fetching guesses.");
