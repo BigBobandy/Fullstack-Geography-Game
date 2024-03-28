@@ -3,8 +3,10 @@ import { REHYDRATE } from "redux-persist";
 import { getGuesses, submitGuess, submitHint } from "../actions/guessActions";
 
 const initialState = {
+  currentCountryIndex: 0,
   guesses: [], // holds objects { guessNum, guess, guessFlag, guessCode, isCorrect, distance, driection, proximityPercentage, hintUsed}
   isCorrect: null,
+  isComplete: false,
   loading: false,
   error: null,
   message: "",
@@ -44,6 +46,8 @@ const guessSlice = createSlice({
         state.loading = false;
         state.isCorrect = action.payload.isCorrect;
         state.message = action.payload.message;
+        state.currentCountryIndex = action.payload.currentCountryIndex;
+        state.isComplete = action.payload.isComplete;
 
         // Check if guesses is an array before trying to push to it
         if (!Array.isArray(state.guesses)) {
