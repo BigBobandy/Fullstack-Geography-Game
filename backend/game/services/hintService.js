@@ -16,6 +16,7 @@ async function provideHint(userId, challengeId) {
         user: userId,
         challenge: challengeId,
         guesses: [],
+        currentCountryIndex: 0,
       });
     } else if (
       userGuesses.guesses.length >= 5 || // user has reached the guess limit
@@ -28,12 +29,20 @@ async function provideHint(userId, challengeId) {
 
     // find the daily challenge to get the selected country for the day
     const dailyChallenge = await DailyChallenge.findById(challengeId).populate({
-      path: "dailyCountry",
+      path: "dailyCountries",
       select: "capital continent flag",
     });
 
-    if (!dailyChallenge) {
-      throw new Error("Challenge not found.");
+    if (!dailyChallenge || dailyChallenge.dailyCountries.length === 0) {
+      throw new Error("Challenge not found or no countries are set for today.");
+    }
+
+    // Determine the current country from the daily challenge based on user's currentCountryIndex
+    const currentCountry =
+      dailyChallenge.dailyCountries[userGuesses.currentCountryIndex];
+
+    if (!currentCountry) {
+      throw new Error("Current country for hint not found.");
     }
 
     // randomly decide the type of hint to return
@@ -42,13 +51,13 @@ async function provideHint(userId, challengeId) {
 
     switch (hintType) {
       case 1:
-        hintContent = `Capital City: ${dailyChallenge.dailyCountry.capital}`;
+        hintContent = `Capital City: ${currentCountry.capital}`;
         break;
       case 2:
-        hintContent = `Continental Region: ${dailyChallenge.dailyCountry.continent[0]}`;
+        hintContent = `Continental Region: ${currentCountry.continent[0]}`;
         break;
       case 3:
-        hintContent = `Flag: ${dailyChallenge.dailyCountry.flag}`;
+        hintContent = `Flag: ${currentCountry.flag}`;
         break;
       default:
         throw new Error("Failed to generate hint.");
@@ -56,6 +65,7 @@ async function provideHint(userId, challengeId) {
 
     // record that the user used a hint in the guess model
     userGuesses.guesses.push({
+      countryId: currentCountry._id,
       guessNum: userGuesses.guesses.length + 1,
       hintUsed: true,
       hint: hintContent,
@@ -64,8 +74,11 @@ async function provideHint(userId, challengeId) {
     await userGuesses.save();
 
     // update the user's stats to reflect the hint usage
-    const userStats = await UserStats.findOne({ user: userId });
-    userStats.hintsUsed += 1;
+    const userStats = await UserStats.findOneAndUpdate(
+      { user: userId },
+      { $inc: { hintsUsed: 1 } },
+      { new: true, upsert: true }
+    );
 
     await userStats.save();
 
