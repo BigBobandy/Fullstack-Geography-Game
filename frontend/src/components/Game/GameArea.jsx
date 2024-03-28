@@ -2,24 +2,26 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchDailyChallengeId,
-  fetchDailyChallengeImage,
+  fetchDailyChallengeImages,
 } from "../../store/slices/challengeSlice";
 import { resetGuessState } from "../../store/slices/guessSlice";
 
 const GameArea = () => {
   const dispatch = useDispatch();
+
   const {
-    imageUrl,
+    imageUrls,
     isLoading,
     isError,
     errorMessage,
     challengeId,
     previousChallengeId,
   } = useSelector((state) => state.challenge);
+  const { currentCountryIndex } = useSelector((state) => state.guess);
 
   useEffect(() => {
-    dispatch(fetchDailyChallengeImage());
     dispatch(fetchDailyChallengeId()).then(() => {
+      dispatch(fetchDailyChallengeImages());
       if (challengeId !== previousChallengeId) {
         dispatch(resetGuessState());
       }
@@ -45,11 +47,12 @@ const GameArea = () => {
   return (
     <div>
       <h1 className="font-bold text-xl">Can you guess what country this is?</h1>
-      {imageUrl && (
+      {imageUrls && imageUrls.length > 0 && (
         <div className="flex justify-center h-[35vh]">
-          <img src={imageUrl} alt="Country Outline" />
+          <img src={imageUrls[currentCountryIndex]} alt="Country Outline" />
         </div>
       )}
+      <h2>Country: {currentCountryIndex + 1}/3</h2>
     </div>
   );
 };

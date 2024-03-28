@@ -12,18 +12,27 @@ const guessModel = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    currentCountryIndex: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     guesses: [
       {
-        guessNum: Number, // 1-6
-        guess: String, // Country name
-        guessFlag: String, // URL
-        guessCode: String, // 3-letter country code
-        isCorrect: Boolean, // true or false
-        hintUsed: Boolean, // true or false
-        hint: String, // Continent, Capital, Flag
-        distance: Number, // in km
-        direction: String, // N, NE, E, SE, S, SW, W, NW
-        proximityPercentage: Number, // 0-100
+        countryId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Country",
+        },
+        guessNum: Number,
+        guess: String,
+        guessFlag: String,
+        guessCode: String,
+        isCorrect: Boolean,
+        hintUsed: Boolean,
+        hint: String,
+        distance: Number,
+        direction: String,
+        proximityPercentage: Number,
       },
     ],
     isComplete: {

@@ -1,13 +1,13 @@
-const selectCountry = require("../services/countryService");
+const selectCountries = require("../services/countryService");
 const setDailyChallenge = require("../services/challengeService");
 
 async function handleGameLogic() {
   try {
     // step 1 - select country for challenge
-    const selectedCountry = await selectCountry();
+    const selectedCountries = await selectCountries();
 
     // step 2 - use selected country to set the challenge in database
-    await setDailyChallenge(selectedCountry._id);
+    await setDailyChallenge(selectedCountries);
 
     // step 3 - end game logic
   } catch (err) {
