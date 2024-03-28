@@ -9,26 +9,34 @@ async function getDailyChallenge(req, res) {
   try {
     const challenge = await DailyChallenge.findOne({
       challengeDate: today,
-    }).populate("dailyCountry");
+    }).populate("dailyCountries");
 
     if (!challenge) {
       return res.status(404).json({ message: "No daily challenge found" });
     } else {
-      // Construct the path to the image file
-      const imagePath = path.join(
-        __dirname,
-        "../",
-        challenge.dailyCountry.outlineImageUrl
-      );
+      // Map through the dailyCountries array to construct image URLs for each country
+      const imageUrls = challenge.dailyCountries.map((country) => {
+        // Construct the server-side file path
+        let imagePath = path.join(__dirname, "../", country.outlineImageUrl);
 
-      console.log("Attempting to serve imagePath: ", imagePath);
-      // Directly serve the image file
-      return res.sendFile(imagePath, (err) => {
-        if (err) {
-          console.error("Error serving file:", err);
-          return res.status(404).json({ message: "Image file not found." });
-        }
+        // Convert the server-side file path to a URL
+        let relativePath = path.relative(
+          path.join(__dirname, "../assets"),
+          imagePath
+        );
+        let imageUrl =
+          `http://localhost:3000/assets/outline/${relativePath}`.replace(
+            /\\/g,
+            "/"
+          );
+
+        return imageUrl;
       });
+
+      console.log("Attempting to serve imageUrls: ", imageUrls);
+
+      // send the image URLs to the client
+      return res.json({ imageUrls });
     }
   } catch (err) {
     console.error("Error fetching daily challenge:", err);
