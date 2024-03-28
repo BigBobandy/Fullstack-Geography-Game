@@ -7,10 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import StatsModal from "./StatsModal";
+import TutorialModal from "./TutorialModal";
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user);
   const [showStatsModal, setShowStatsModal] = useState(false);
+  const [showTutorialModal, setShowTutorialModal] = useState(false);
 
   return (
     <header
@@ -18,6 +20,9 @@ const Header = () => {
     lg:w-[30vw] lg:mx-auto md:w-[75vw] md:mx-auto min-w-fit"
     >
       {showStatsModal && <StatsModal setShowStatsModal={setShowStatsModal} />}
+      {showTutorialModal && (
+        <TutorialModal setShowTutorialModal={setShowTutorialModal} />
+      )}
       <div className="flex items-center">
         <h1 className="text-md font-bold flex items-center">
           Geography
@@ -26,7 +31,10 @@ const Header = () => {
       </div>
 
       <div className="flex justify-center sm:gap-1 md:gap-3 lg:gap-4 sm:ml-2">
-        <button className="btn btn-xs sm:btn-sm">
+        <button
+          className="btn btn-xs sm:btn-sm"
+          onClick={() => setShowTutorialModal(true)}
+        >
           <FontAwesomeIcon icon={faQuestionCircle} />
         </button>
         <button className="btn btn-xs sm:btn-sm">
