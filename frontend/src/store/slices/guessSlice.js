@@ -68,7 +68,9 @@ const guessSlice = createSlice({
       })
       .addCase(getGuesses.fulfilled, (state, action) => {
         state.loading = false;
-        state.guesses = action.payload;
+        state.guesses = action.payload.guesses;
+        state.currentCountryIndex = action.payload.currentCountryIndex;
+        state.isComplete = action.payload.isComplete;
       })
       .addCase(getGuesses.rejected, (state, action) => {
         state.loading = false;
