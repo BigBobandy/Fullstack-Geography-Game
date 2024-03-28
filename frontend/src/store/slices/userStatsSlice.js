@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { apiUrl } from "../../utils/config";
 
 // async thunk action for fetching user stats
 export const fetchUserStats = createAsyncThunk(
   "userStats/fetchUserStats",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:3000/api/user/stats", {
+      const response = await fetch(`${apiUrl}/api/user/stats`, {
         method: "GET",
         credentials: "include",
       });

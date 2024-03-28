@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginStart } from "../../store/slices/authSlice";
-import googleClientId from "../../utils/config";
+import { apiUrl, googleClientId } from "../../utils/config";
 
 const LoginButton = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.auth.isLoading);
 
-  const redirectUri = "http://localhost:3000/auth/google/redirect";
+  const redirectUri = `${apiUrl}/auth/google/redirect`;
 
   function handleLoginWithGoogle() {
     dispatch(loginStart());

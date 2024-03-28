@@ -1,16 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { apiUrl } from "../../utils/config";
 
 // async thunk action for fetchin the daily challenge
 export const fetchDailyChallengeImages = createAsyncThunk(
   "challenge/fetchDailyChallengeImages",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/challenge/daily",
-        {
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/challenge/daily`, {
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch daily challenge image");
       }
@@ -31,12 +29,9 @@ export const fetchDailyChallengeId = createAsyncThunk(
   "challenge/fetchDailyChallengeId",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/challenge/daily/id",
-        {
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/challenge/daily/id`, {
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch daily challenge ID");
       }
