@@ -1,12 +1,12 @@
 const cron = require("node-cron");
-const selectCountry = require("../services/countryService");
+const selectCountries = require("../services/countryService");
 const setDailyChallenge = require("../services/challengeService");
 
 // function to setup a new daily challenge
 async function setupNewDailyChallenge() {
   try {
-    const selectedCountry = await selectCountry();
-    await setDailyChallenge(selectedCountry._id);
+    const selectedCountries = await selectCountries();
+    await setDailyChallenge(selectedCountries);
 
     console.log("New daily challenge set");
   } catch (err) {
