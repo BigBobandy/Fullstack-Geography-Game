@@ -2,13 +2,18 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../models/userModel");
 
+const callbackURL =
+  process.env.NODE_ENV === "production"
+    ? `${process.env.CLIENT_URL}/auth/google/redirect`
+    : "http://localhost:3000/auth/google/redirect";
+
 passport.use(
   new GoogleStrategy(
     {
       // options for the google strategy
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/redirect",
+      callbackURL: callbackURL,
       passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, done) => {
