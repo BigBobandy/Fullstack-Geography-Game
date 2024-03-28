@@ -54,8 +54,8 @@ const GuessItem = ({ guessDetails }) => {
     : "";
 
   return (
-    <div className="grid grid-cols-7 gap-1 text-center font-semibold">
-      <div className="bg-base-200 rounded-lg flex items-center h-8 col-span-3 animate-reveal pl-2">
+    <div className="grid grid-cols-8 gap-1 text-center font-semibold">
+      <div className="bg-base-200 rounded-lg flex items-center h-8 col-span-4 animate-reveal pl-2">
         {guessFlag && (
           <img
             src={guessFlag}
