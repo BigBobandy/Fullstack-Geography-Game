@@ -1,5 +1,5 @@
 import React from "react";
-import { directionArrows } from "../../utils/directionMap";
+import { directionArrows } from "../../utils/directionMap.js";
 
 const GuessItem = ({ guessDetails }) => {
   //destructuring the guess object

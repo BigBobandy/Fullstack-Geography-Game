@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Game from "../Game/Game";
-import Header from "../UI/Header";
+import Game from "../Game/Game.jsx";
+import Header from "../UI/Header.jsx";
 
 function Home() {
   const user = useSelector((state) => state.auth.user);

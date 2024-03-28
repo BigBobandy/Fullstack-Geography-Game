@@ -31,8 +31,8 @@ const TutorialModal = ({ setShowTutorialModal }) => {
         </div>
         <div className="modal-body p-4 text-left">
           <p className="mb-4">
-            Welcome to <strong>Geography Genius</strong>, a fun and educational
-            game where you guess the country based on its outline. Here's how to
+            Welcome to <strong>Geography Genius</strong>, a Wordle type-game
+            where you guess the country based on its outline. Here's how to
             play:
           </p>
 
@@ -47,7 +47,7 @@ const TutorialModal = ({ setShowTutorialModal }) => {
             </li>
             <li className="my-3">
               You may use a hint to help with your guesses, but be aware that
-              using a hint counts as one of your guesses. Hints can reveal the
+              using a hint counts as one of your guesses. A hint can reveal the
               country's capital, its continent, or its flag (chosen at random).
             </li>
             <li className="my-3">

@@ -6,8 +6,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import StatsModal from "./StatsModal";
-import TutorialModal from "./TutorialModal";
+import StatsModal from "./StatsModal.jsx";
+import TutorialModal from "./TutorialModal.jsx";
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user);

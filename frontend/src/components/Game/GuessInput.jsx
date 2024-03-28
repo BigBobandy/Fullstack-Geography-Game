@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import useCountrySelect from "../../hooks/useCountrySelect";
 import useToast from "../../hooks/useToast";
 import { submitGuess, submitHint } from "../../store/actions/guessActions";
-import countries from "../../utils/countries";
-import validateGuess from "../../utils/validateGuess";
+import countries from "../../utils/countries.js";
+import validateGuess from "../../utils/validateGuess.js";
 import { Toast } from "../UI/Toast";
-import GuessButton from "./GuessButton";
-import GuessDropdown from "./GuessDropdown";
-import HintButton from "./HintButton";
+import GuessButton from "./GuessButton.jsx";
+import GuessDropdown from "./GuessDropdown.jsx";
+import HintButton from "./HintButton.jsx";
 
 const GuessInput = ({ totalGuessSlots }) => {
   const challengeId = useSelector((state) => state.challenge.challengeId);
