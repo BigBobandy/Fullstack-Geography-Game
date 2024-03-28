@@ -1,21 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { apiUrl } from "../../utils/config";
 
 // async thunk action for submitting a guess
 export const submitGuess = createAsyncThunk(
   "guess/submitGuess",
   async ({ challengeId, guess, guessNum }, { rejectWithValue }) => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/challenge/guess/submit",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ challengeId, guess, guessNum }),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/challenge/guess/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ challengeId, guess, guessNum }),
+      });
       if (!response.ok) {
         throw new Error("Failed to submit guess");
       }
@@ -33,7 +31,7 @@ export const getGuesses = createAsyncThunk(
   async (challengeId, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/challenge/guess/get/${challengeId}`,
+        `${apiUrl}/api/challenge/guess/get/${challengeId}`,
         {
           method: "GET",
           headers: {
@@ -60,7 +58,7 @@ export const submitHint = createAsyncThunk(
   async (challengeId, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/challenge/guess/hint/${challengeId}`,
+        `${apiUrl}/api/challenge/guess/hint/${challengeId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { apiUrl } from "../../utils/config";
 
 // async action for fetching user data
 export const fetchUserProfile = createAsyncThunk(
   // action type for this async action
   "auth/fetchUserProfile",
   async () => {
-    const response = await fetch("http://localhost:3000/api/user/profile", {
+    const response = await fetch(`${apiUrl}/api/user/profile`, {
       credentials: "include",
     });
     const userData = await response.json();

@@ -1,8 +1,7 @@
 import { useState } from "react";
-import guessSlice from "../../store/slices/guessSlice";
-import GameArea from "./GameArea";
-import GuessInput from "./GuessInput";
-import GuessList from "./GuessList";
+import GameArea from "./GameArea.jsx";
+import GuessInput from "./GuessInput.jsx";
+import GuessList from "./GuessList.jsx";
 
 const Game = () => {
   const [totalGuessSlots, setTotalGuessSlots] = useState(6);
