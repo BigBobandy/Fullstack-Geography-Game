@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 
 const callbackURL =
   process.env.NODE_ENV === "production"
-    ? `${process.env.CLIENT_URL}/auth/google/redirect`
+    ? "https://server-geography-genius-production.up.railway.app/auth/google/redirect"
     : "http://localhost:3000/auth/google/redirect";
 
 passport.use(
