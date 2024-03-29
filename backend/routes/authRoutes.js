@@ -10,13 +10,33 @@ const clientUrl =
 
 router.get("/google", loginWithGoogle);
 
-router.get(
-  "/google/redirect",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    // Successful authentication, redirect back to the client application.
-    res.redirect(`${clientUrl}/auth/success`);
-  }
-);
+router.get("/google/redirect", (req, res, next) => {
+  console.log("Received Google OAuth redirect");
+  passport.authenticate(
+    "google",
+    { failureRedirect: "/login" },
+    (err, user, info) => {
+      if (err) {
+        console.error("Error during Google OAuth redirect:", err);
+        return res.status(500).send(err.message);
+      }
+      if (!user) {
+        console.error("No user returned in Google OAuth redirect:", info);
+        return res.redirect("/login");
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          console.error("Error logging in after Google OAuth redirect:", err);
+          return next(err);
+        }
+        console.log(
+          "Successful authentication, redirecting to:",
+          `${clientUrl}/auth/success`
+        );
+        res.redirect(`${clientUrl}/auth/success`);
+      });
+    }
+  )(req, res, next);
+});
 
 module.exports = router;
