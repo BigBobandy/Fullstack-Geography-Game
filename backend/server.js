@@ -24,9 +24,21 @@ app.use(morgan("dev"));
 app.use(helmet());
 
 // Enable CORS
+// Configure CORS to allow requests from frontend
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://geography-genius-production.up.railway.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"), false);
+      }
+    },
     credentials: true,
   })
 );
@@ -59,4 +71,13 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(
+    `Google Client ID is ${process.env.GOOGLE_CLIENT_ID ? "set" : "not set"}`
+  );
+  console.log(
+    `Google Client Secret is ${
+      process.env.GOOGLE_CLIENT_SECRET ? "set" : "not set"
+    }`
+  );
 });
