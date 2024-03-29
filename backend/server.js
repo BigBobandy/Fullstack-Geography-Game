@@ -80,6 +80,4 @@ app.listen(PORT, () => {
       process.env.GOOGLE_CLIENT_SECRET ? "set" : "not set"
     }`
   );
-
-  console.log(`Google OAuth Callback URL: ${callbackURL}`);
 });
