@@ -8,6 +8,22 @@ const authMiddleware = require("./config/authMiddleware");
 require("./config/passportSetup");
 const startGame = require("./game/index");
 
+//temp checking if outline image exists
+const fs = require("fs");
+const path = require("path");
+
+// Construct the path to the file you want to check
+const filePath = path.join(__dirname, "assets/outline/AFG-Afghanistan.svg");
+
+// Check if the file exists
+fs.access(filePath, fs.constants.F_OK, (err) => {
+  if (err) {
+    console.error(`File ${filePath} does not exist:`, err);
+  } else {
+    console.log(`File ${filePath} exists`);
+  }
+});
+
 // Start the express server
 const app = express();
 
