@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getGuesses } from "../../store/actions/guessActions.js";
+import { createSelector } from "@reduxjs/toolkit";
+import React from "react";
+import { useSelector } from "react-redux";
+
+const selectGuesses = createSelector(
+  (state) => state.guess.guesses,
+  (guesses) => guesses ?? []
+);
+
 import GuessItem from "./GuessItem.jsx";
 
 const GuessList = ({ totalGuessSlots }) => {
-  const guesses = useSelector((state) => state.guess?.guesses ?? []);
-  const challengeId = useSelector((state) => state.challenge.challengeId);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getGuesses(challengeId));
-  }, [dispatch, challengeId]);
+  const guesses = useSelector(selectGuesses);
 
   const placeholders = totalGuessSlots - guesses.length;
 
