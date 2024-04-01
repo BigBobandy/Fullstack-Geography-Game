@@ -2,8 +2,8 @@ import React from "react";
 
 const TutorialModal = ({ setShowTutorialModal }) => {
   return (
-    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center justify-start pt-12">
-      <div className="bg-base-200 rounded-lg shadow-xl w-1/2 ">
+    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center pt-14 sm:pt-24">
+      <div className="bg-base-200 rounded-lg shadow-xl w-full sm:w-1/2 max-h-3/4 overflow-y-auto">
         <div className="flex justify-between items-center border-b p-4">
           <h2 className="text-xl ml-10 font-bold text-center flex-1">
             How to play
