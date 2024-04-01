@@ -1,5 +1,4 @@
 const cron = require("node-cron");
-require("tz-node").default;
 const selectCountries = require("../services/countryService");
 const setDailyChallenge = require("../services/challengeService");
 
