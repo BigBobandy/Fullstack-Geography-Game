@@ -1,4 +1,5 @@
 const cron = require("node-cron");
+require("tz-node").default;
 const selectCountries = require("../services/countryService");
 const setDailyChallenge = require("../services/challengeService");
 
@@ -15,7 +16,13 @@ async function setupNewDailyChallenge() {
 }
 
 // shcedule the task to run at midnight everyday
-cron.schedule("0 0 * * *", () => {
-  console.log("Running a task every day at midnight");
-  setupNewDailyChallenge();
-});
+cron.schedule(
+  "0 0 * * *",
+  () => {
+    console.log("Running a task every day at midnight");
+    setupNewDailyChallenge();
+  },
+  {
+    timezone: "America/New_York",
+  }
+);
