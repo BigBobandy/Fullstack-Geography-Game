@@ -1,6 +1,11 @@
 const DailyChallenge = require("../models/dailyChallengeModel");
 const path = require("path");
 
+const SERVER_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://server-geography-genius-production.up.railway.app"
+    : "http://localhost:3000";
+
 // handles serving the daily challenge image
 async function getDailyChallenge(req, res) {
   const today = new Date();
@@ -24,11 +29,10 @@ async function getDailyChallenge(req, res) {
           path.join(__dirname, "../assets"),
           imagePath
         );
-        let imageUrl =
-          `http://localhost:3000/assets/outline/${relativePath}`.replace(
-            /\\/g,
-            "/"
-          );
+        let imageUrl = `${SERVER_URL}/assets/${relativePath}`.replace(
+          /\\/g,
+          "/"
+        );
 
         return imageUrl;
       });

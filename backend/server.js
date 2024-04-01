@@ -7,12 +7,16 @@ const cors = require("cors");
 const authMiddleware = require("./config/authMiddleware");
 require("./config/passportSetup");
 const startGame = require("./game/index");
+const path = require("path");
 
 // Start the express server
 const app = express();
 
 // Serve static files
-app.use("/assets/outline", express.static("./assets"));
+app.use(
+  "/assets/outline",
+  express.static(path.join(__dirname, "assets/outline"))
+);
 
 // Use express.json to parse requests with JSON payloads
 app.use(express.json());
