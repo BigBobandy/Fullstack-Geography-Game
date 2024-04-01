@@ -40,7 +40,7 @@ async function setDailyChallenge(selectedCountryIds) {
         challengeNumber
       );
     } else {
-      console.log("Challenge for today already exists.");
+      console.log("Challenge for today already exists: ", existingChallenge);
     }
   } catch (error) {
     console.error("Error setting daily challenge:", error);
