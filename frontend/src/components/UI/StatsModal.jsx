@@ -14,7 +14,7 @@ const StatsModal = ({ setShowStatsModal }) => {
 
   return (
     <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center justify-start pt-12">
-      <div className="bg-base-200 rounded-lg shadow-2xl max-h-[70vh] w-[55vw] lg:w-[30%] overflow-hidden">
+      <div className="bg-base-200 rounded-lg shadow-2xl max-h-[70vh] w-[55vw] lg:w-[30%] ">
         <div className="flex justify-between items-center border-b p-4">
           <h2 className="text-xl ml-10 font-bold text-center flex-1">Stats</h2>
 
