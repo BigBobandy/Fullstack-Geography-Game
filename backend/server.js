@@ -72,16 +72,3 @@ app.use("/api/challenge", challengeRoutes);
 app.use("/api/challenge/guess", guessRoutes);
 
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(
-    `Google Client ID is ${process.env.GOOGLE_CLIENT_ID ? "set" : "not set"}`
-  );
-  console.log(
-    `Google Client Secret is ${
-      process.env.GOOGLE_CLIENT_SECRET ? "set" : "not set"
-    }`
-  );
-});

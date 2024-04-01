@@ -1,6 +1,7 @@
 const Country = require("../../models/countryModel");
 const DailyChallenge = require("../../models/dailyChallengeModel");
 const weightedSelectByArea = require("../utils/weightedSelection");
+const moment = require("moment-timezone");
 
 async function getAllCountries() {
   try {
@@ -13,12 +14,15 @@ async function getAllCountries() {
 }
 
 async function selectCountries() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Adjust 'today' to the start of the day
+  const todayStart = moment.tz("America/New_York").startOf("day").toDate();
+  const todayEnd = moment.tz("America/New_York").endOf("day").toDate();
 
   // Check if a challenge for today already exists
   const existingChallenge = await DailyChallenge.findOne({
-    challengeDate: today,
+    challengeDate: {
+      $gte: todayStart,
+      $lt: todayEnd,
+    },
   });
 
   if (existingChallenge) {
@@ -51,7 +55,7 @@ async function selectCountries() {
       );
 
       // Update the lastUsed field of the selected country
-      selectedCountry.lastUsed = new Date();
+      selectedCountry.lastUsed = moment.tz("America/New_York").toDate();
       await selectedCountry.save();
     }
 

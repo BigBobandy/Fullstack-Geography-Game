@@ -1,7 +1,8 @@
 const UserStats = require("../../models/userStatsModel");
 const { updateParticipationStreak } = require("./dailyParticipationService");
+const moment = require("moment-timezone");
 
-async function updateUserStats({ userId, guessDetails }) {
+async function updateUserStats({ userId, guessDetails, isGameWon }) {
   // retrieve user stats doc
   let userStats = await UserStats.findOne({ user: userId });
 
@@ -17,15 +18,17 @@ async function updateUserStats({ userId, guessDetails }) {
   }
 
   // daily reset of lastParticipationDate
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // normalize today's date for comparison
+  const todayStart = moment.tz("America/New_York").startOf("day").toDate();
 
-  let lastParticipationDate = new Date(userStats.lastParticipationDate);
-  lastParticipationDate.setHours(0, 0, 0, 0);
+  // Convert lastParticipationDate to the start of the day in the "America/New_York" timezone for comparison
+  let lastParticipationDate = moment(userStats.lastParticipationDate)
+    .tz("America/New_York")
+    .startOf("day")
+    .toDate();
 
   if (lastParticipationDate < today) {
     userStats.streakUpdatedToday = false; // Reset the flag for the new day
-    userStats.lastParticipationDate = today; // Update last participation date to today
+    userStats.lastParticipationDate = todayStart; // Update last participation date to today
   }
 
   // if the streak has not been updated today, update it
@@ -42,8 +45,6 @@ async function updateUserStats({ userId, guessDetails }) {
 
   // Handle a correct guess
   if (guessDetails.isCorrect) {
-    userStats.totalWins += 1;
-
     // Check if the country has already been guessed correctly before
     const existingEntry = userStats.correctGuesses.find(
       (c) => c.name === guessDetails.guess
@@ -55,6 +56,12 @@ async function updateUserStats({ userId, guessDetails }) {
       });
     }
   }
+
+  // Handle a game win
+  if (isGameWon) {
+    userStats.totalWins += 1;
+  }
+
   await userStats.save();
 }
 

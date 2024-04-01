@@ -1,5 +1,6 @@
 const DailyChallenge = require("../models/dailyChallengeModel");
 const path = require("path");
+const moment = require("moment-timezone");
 
 const SERVER_URL =
   process.env.NODE_ENV === "production"
@@ -8,12 +9,15 @@ const SERVER_URL =
 
 // handles serving the daily challenge image
 async function getDailyChallenge(req, res) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const todayStart = moment.tz("America/New_York").startOf("day").toDate();
+  const todayEnd = moment.tz("America/New_York").endOf("day").toDate();
 
   try {
     const challenge = await DailyChallenge.findOne({
-      challengeDate: today,
+      challengeDate: {
+        $gte: todayStart,
+        $lt: todayEnd,
+      },
     }).populate("dailyCountries");
 
     if (!challenge) {
@@ -37,8 +41,6 @@ async function getDailyChallenge(req, res) {
         return imageUrl;
       });
 
-      console.log("Attempting to serve imageUrls: ", imageUrls);
-
       // send the image URLs to the client
       return res.json({ imageUrls });
     }
@@ -50,13 +52,16 @@ async function getDailyChallenge(req, res) {
 
 // handles sending the challenge ID for the current day
 async function getChallengeId(req, res) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const todayStart = moment.tz("America/New_York").startOf("day").toDate();
+  const todayEnd = moment.tz("America/New_York").endOf("day").toDate();
 
   try {
     const challenge = await DailyChallenge.findOne(
       {
-        challengeDate: today,
+        challengeDate: {
+          $gte: todayStart,
+          $lt: todayEnd,
+        },
       },
       "_id"
     );

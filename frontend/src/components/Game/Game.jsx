@@ -5,6 +5,7 @@ import {
   fetchDailyChallengeId,
   fetchDailyChallengeImages,
 } from "../../store/slices/challengeSlice.js";
+import { resetGuessState } from "../../store/slices/guessSlice";
 import GameArea from "./GameArea.jsx";
 import GuessInput from "./GuessInput.jsx";
 import GuessList from "./GuessList.jsx";
@@ -20,6 +21,7 @@ const Game = () => {
     dispatch(fetchDailyChallengeId())
       .unwrap()
       .then((newChallengeId) => {
+        dispatch(resetGuessState());
         dispatch(fetchDailyChallengeImages());
         dispatch(getGuesses(newChallengeId.challengeId));
       })

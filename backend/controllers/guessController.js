@@ -88,7 +88,11 @@ async function submitGuess(req, res) {
     await userGuessDoc.save();
 
     // update the user's stats based on the guess
-    await updateUserStats({ userId, guessDetails });
+    await updateUserStats({
+      userId,
+      guessDetails,
+      isGameWon: userGuessDoc.isComplete,
+    });
 
     // respond with guess result and feedback
     res.json({
