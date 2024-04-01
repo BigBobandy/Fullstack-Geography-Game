@@ -1,32 +1,11 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchDailyChallengeId,
-  fetchDailyChallengeImages,
-} from "../../store/slices/challengeSlice";
-import { resetGuessState } from "../../store/slices/guessSlice";
+import React from "react";
+import { useSelector } from "react-redux";
 
 const GameArea = () => {
-  const dispatch = useDispatch();
-
-  const {
-    imageUrls,
-    isLoading,
-    isError,
-    errorMessage,
-    challengeId,
-    previousChallengeId,
-  } = useSelector((state) => state.challenge);
+  const { imageUrls, isLoading, isError, errorMessage } = useSelector(
+    (state) => state.challenge
+  );
   const { currentCountryIndex } = useSelector((state) => state.guess);
-
-  useEffect(() => {
-    dispatch(fetchDailyChallengeId()).then(() => {
-      dispatch(fetchDailyChallengeImages());
-      if (challengeId !== previousChallengeId) {
-        dispatch(resetGuessState());
-      }
-    });
-  }, [dispatch, challengeId, previousChallengeId]);
 
   if (isLoading) {
     return (

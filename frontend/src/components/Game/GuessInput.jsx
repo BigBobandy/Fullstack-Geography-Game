@@ -15,13 +15,6 @@ const GuessInput = ({ totalGuessSlots }) => {
   const { isCorrect, guesses, isComplete } = useSelector(
     (state) => state.guess
   );
-  const dispatch = useDispatch();
-  const [guessNum, setGuessNum] = useState(1);
-  const wrapperRef = useRef(null);
-  const isGameEnded = isComplete || guesses.length >= 6;
-  const hintUsed = guesses.some((guess) => guess.hintUsed);
-  const disabledHintButton = isGameEnded || hintUsed || guesses.length === 5;
-  const { showToast, toastMessage, triggerToast, closeToast } = useToast();
   const {
     guess,
     setGuess,
@@ -32,6 +25,13 @@ const GuessInput = ({ totalGuessSlots }) => {
     filterCountries,
     selectCountry,
   } = useCountrySelect();
+  const dispatch = useDispatch();
+  const [guessNum, setGuessNum] = useState(1);
+  const wrapperRef = useRef(null);
+  const isGameEnded = isComplete || guesses.length >= 6;
+  const hintUsed = guesses.some((guess) => guess.hintUsed);
+  const disabledHintButton = isGameEnded || hintUsed || guesses.length === 5;
+  const { showToast, toastMessage, triggerToast, closeToast } = useToast();
 
   // Handle changes in the input field
   const handleInputChange = (event) => {
