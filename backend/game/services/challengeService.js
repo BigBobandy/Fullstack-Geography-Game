@@ -1,13 +1,17 @@
 const DailyChallenge = require("../../models/dailyChallengeModel");
+const moment = require("moment-timezone");
 
 async function setDailyChallenge(selectedCountryIds) {
   try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Adjust 'today' to the start of the day
+    const todayStart = moment.tz("America/New_York").startOf("day").toDate();
+    const todayEnd = moment.tz("America/New_York").endOf("day").toDate();
 
     // Check if a challenge for today already exists
     const existingChallenge = await DailyChallenge.findOne({
-      challengeDate: today,
+      challengeDate: {
+        $gte: todayStart,
+        $lt: todayEnd,
+      },
     });
 
     if (!existingChallenge) {
