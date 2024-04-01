@@ -27,8 +27,12 @@ const GameArea = () => {
     <div>
       <h1 className="font-bold text-xl">Can you guess what country this is?</h1>
       {imageUrls && imageUrls.length > 0 && (
-        <div className="flex justify-center h-[35vh]">
-          <img src={imageUrls[currentCountryIndex]} alt="Country Outline" />
+        <div className="flex justify-center h-[35vh] ">
+          <img
+            src={imageUrls[currentCountryIndex]}
+            alt="Country Outline"
+            className="w-full h-full object-contain"
+          />
         </div>
       )}
       <h2>Country: {currentCountryIndex + 1}/3</h2>

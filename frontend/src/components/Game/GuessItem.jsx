@@ -68,7 +68,9 @@ const GuessItem = ({ guessDetails }) => {
       </div>
 
       <div className="bg-base-200 rounded-lg flex items-center justify-center h-8 col-span-2 animate-reveal">
-        {distance && <span className="font-bold mr-4">{distance} km</span>}
+        {distance && (
+          <span className="font-bold text-sm mr-4">{distance} km</span>
+        )}
       </div>
       <div className="bg-base-200 rounded-lg flex items-center justify-center h-8 col-span-1 animate-reveal">
         {" "}
@@ -78,7 +80,9 @@ const GuessItem = ({ guessDetails }) => {
       </div>
 
       <div className="bg-base-200 rounded-lg flex items-center justify-center h-8 col-span-1 animate-reveal animate-pop">
-        <span className="font-bold text-blue-500">{proximityPercentage}%</span>
+        <span className="font-bold text-sm text-blue-500">
+          {proximityPercentage}%
+        </span>
       </div>
     </div>
   );

@@ -16,15 +16,15 @@ const Header = () => {
 
   return (
     <header
-      className="flex items-center justify-between bg-neutral-content py-1 text-neutral rounded-md 
-    lg:w-[30vw] lg:mx-auto md:w-[75vw] md:mx-auto min-w-fit"
+      className="flex items-center justify-between  py-1 text-neutral rounded-md 
+     lg:mx-auto  md:mx-auto min-w-fit"
     >
       {showStatsModal && <StatsModal setShowStatsModal={setShowStatsModal} />}
       {showTutorialModal && (
         <TutorialModal setShowTutorialModal={setShowTutorialModal} />
       )}
       <div className="flex items-center">
-        <h1 className="text-md font-bold flex items-center">
+        <h1 className="text-md sm:text:sm font-bold flex items-center">
           Geography
           <img src="/globe.png" alt="Globe" className="h-6 w-6 mx-2" /> Genius
         </h1>
