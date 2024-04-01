@@ -12,7 +12,7 @@ async function setDailyChallenge(selectedCountryIds) {
         $gte: todayStart,
         $lt: todayEnd,
       },
-    });
+    }).populate("dailyCountries");
 
     if (!existingChallenge) {
       // Find the most recent challenge to get the last challenge number
@@ -40,7 +40,13 @@ async function setDailyChallenge(selectedCountryIds) {
         challengeNumber
       );
     } else {
-      console.log("Challenge for today already exists: ", existingChallenge);
+      const countryNames = existingChallenge.dailyCountries
+        .map((country) => country.name)
+        .join(", ");
+      console.log(
+        "Challenge for today already exists with countries: ",
+        countryNames
+      );
     }
   } catch (error) {
     console.error("Error setting daily challenge:", error);
