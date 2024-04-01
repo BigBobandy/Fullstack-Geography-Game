@@ -29,10 +29,7 @@ const Game = () => {
   }, [dispatch]);
 
   return (
-    <div
-      className="flex flex-col  min-h-fit w-1/2 my-4 p-4 bg-neutral-content 
-    rounded-md  "
-    >
+    <div className="flex flex-col min-h-fit w-full md:w-[60%] lg:max-w-lg my-4 p-4 bg-neutral-content rounded-md">
       <GameArea />
       <GuessList totalGuessSlots={totalGuessSlots} />
       <GuessInput
