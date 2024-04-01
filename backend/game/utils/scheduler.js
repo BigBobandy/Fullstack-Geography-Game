@@ -16,7 +16,7 @@ async function setupNewDailyChallenge() {
 
 // shcedule the task to run at midnight everyday
 cron.schedule(
-  "* * * * *", // Changed to every minute for testing
+  "0 0 * * *",
   () => {
     console.log("Running a task every day at midnight");
     setupNewDailyChallenge();
