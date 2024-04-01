@@ -7,8 +7,6 @@ const callbackURL =
     ? "https://server-geography-genius-production.up.railway.app/auth/google/redirect"
     : "http://localhost:3000/auth/google/redirect";
 
-console.log(`Google OAuth Callback URL: ${callbackURL}`);
-
 passport.use(
   new GoogleStrategy(
     {
