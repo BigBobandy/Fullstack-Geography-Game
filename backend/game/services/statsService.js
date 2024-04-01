@@ -1,7 +1,7 @@
 const UserStats = require("../../models/userStatsModel");
 const { updateParticipationStreak } = require("./dailyParticipationService");
 
-async function updateUserStats({ userId, guessDetails }) {
+async function updateUserStats({ userId, guessDetails, isGameWon }) {
   // retrieve user stats doc
   let userStats = await UserStats.findOne({ user: userId });
 
@@ -42,8 +42,6 @@ async function updateUserStats({ userId, guessDetails }) {
 
   // Handle a correct guess
   if (guessDetails.isCorrect) {
-    userStats.totalWins += 1;
-
     // Check if the country has already been guessed correctly before
     const existingEntry = userStats.correctGuesses.find(
       (c) => c.name === guessDetails.guess
@@ -55,6 +53,12 @@ async function updateUserStats({ userId, guessDetails }) {
       });
     }
   }
+
+  // Handle a game win
+  if (isGameWon) {
+    userStats.totalWins += 1;
+  }
+
   await userStats.save();
 }
 
