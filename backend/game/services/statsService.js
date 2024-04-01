@@ -1,5 +1,6 @@
 const UserStats = require("../../models/userStatsModel");
 const { updateParticipationStreak } = require("./dailyParticipationService");
+const moment = require("moment-timezone");
 
 async function updateUserStats({ userId, guessDetails, isGameWon }) {
   // retrieve user stats doc
@@ -17,15 +18,17 @@ async function updateUserStats({ userId, guessDetails, isGameWon }) {
   }
 
   // daily reset of lastParticipationDate
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // normalize today's date for comparison
+  const todayStart = moment.tz("America/New_York").startOf("day").toDate();
 
-  let lastParticipationDate = new Date(userStats.lastParticipationDate);
-  lastParticipationDate.setHours(0, 0, 0, 0);
+  // Convert lastParticipationDate to the start of the day in the "America/New_York" timezone for comparison
+  let lastParticipationDate = moment(userStats.lastParticipationDate)
+    .tz("America/New_York")
+    .startOf("day")
+    .toDate();
 
   if (lastParticipationDate < today) {
     userStats.streakUpdatedToday = false; // Reset the flag for the new day
-    userStats.lastParticipationDate = today; // Update last participation date to today
+    userStats.lastParticipationDate = todayStart; // Update last participation date to today
   }
 
   // if the streak has not been updated today, update it
