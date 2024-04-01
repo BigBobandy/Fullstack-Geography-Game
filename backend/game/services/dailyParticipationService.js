@@ -1,56 +1,53 @@
 const UserStats = require("../../models/userStatsModel");
+const moment = require("moment-timezone");
 
-// sets the given date to start of day
-function setToStartOfDay(date) {
-  const adjustedDate = new Date(date);
-  adjustedDate.setHours(0, 0, 0, 0);
-  return adjustedDate;
+// Ensures the date is adjusted to EST and starts at the beginning of the day
+function getEffectiveGameDate(date, timezone = "America/New_York") {
+  return moment(date).tz(timezone).startOf("day").toDate();
 }
 
-// checks if two dates are consecutive
+// Checks if two dates are consecutive, considering timezone adjustments
 function isConsecutiveDay(previous, current) {
-  const difference = current - previous;
-  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-  return difference === oneDay;
+  const prevDate = moment(previous).startOf("day");
+  const currDate = moment(current).startOf("day");
+  return currDate.diff(prevDate, "days") === 1;
 }
 
-// updates user's participation streak
+// Updates user's participation streak and checks for the longest streak
 async function updateParticipationStreak(userId) {
-  const userStats = await UserStats.findOne({ user: userId });
+  let userStats = await UserStats.findOne({ user: userId });
 
   if (!userStats) {
     console.error("User stats not found for user", userId);
     return;
   }
 
-  // ensure streak doesn't get updated multiple times in a day
-  if (userStats.streakUpdatedToday) {
-    return;
-  }
-
-  const today = setToStartOfDay(new Date());
+  const today = getEffectiveGameDate(new Date());
   let lastParticipationDate = userStats.lastParticipationDate
-    ? setToStartOfDay(userStats.lastParticipationDate)
+    ? getEffectiveGameDate(userStats.lastParticipationDate)
     : null;
 
-  if (
-    !lastParticipationDate ||
-    !isConsecutiveDay(lastParticipationDate.getTime(), today.getTime())
-  ) {
-    userStats.currentStreak = 1; // Reset to 1 if not consecutive
-  } else {
-    userStats.currentStreak += 1; // Increment if consecutive
-    // Check and update longest streak
+  // If it's a new day of participation and not the same day
+  if (!lastParticipationDate || lastParticipationDate < today) {
+    if (
+      lastParticipationDate &&
+      isConsecutiveDay(lastParticipationDate, today)
+    ) {
+      // If consecutive, increment the current streak
+      userStats.currentStreak += 1;
+    } else {
+      // If not consecutive, reset the current streak
+      userStats.currentStreak = 1;
+    }
+
+    // Update the longest streak if the current streak is greater
     if (userStats.currentStreak > userStats.longestStreak) {
       userStats.longestStreak = userStats.currentStreak;
     }
+
+    userStats.lastParticipationDate = today; // Update last participation to today
+    await userStats.save();
   }
-
-  // update total games
-  userStats.totalGames += 1;
-
-  userStats.lastParticipationDate = today; // Always update the last participation date
-  await userStats.save();
 }
 
 module.exports = { updateParticipationStreak };
