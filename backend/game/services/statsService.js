@@ -26,7 +26,7 @@ async function updateUserStats({ userId, guessDetails, isGameWon }) {
     .startOf("day")
     .toDate();
 
-  if (lastParticipationDate < today) {
+  if (lastParticipationDate < todayStart) {
     userStats.streakUpdatedToday = false; // Reset the flag for the new day
     userStats.lastParticipationDate = todayStart; // Update last participation date to today
   }

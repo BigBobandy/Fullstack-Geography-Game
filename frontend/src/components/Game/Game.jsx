@@ -30,8 +30,8 @@ const Game = () => {
 
   return (
     <div
-      className="flex flex-col  h-[90vh] my-4 p-4 bg-neutral-content 
-    rounded-md lg:w-[30vw]  lg:mx-auto md:w-[75vw] md:mx-auto sm:w-[60vw] overflow-hidden"
+      className="flex flex-col  min-h-fit w-1/2 my-4 p-4 bg-neutral-content 
+    rounded-md  "
     >
       <GameArea />
       <GuessList totalGuessSlots={totalGuessSlots} />

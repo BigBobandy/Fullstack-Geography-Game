@@ -8,7 +8,7 @@ const GuessDropdown = ({
 }) => {
   return (
     <ul
-      className="list-none bg-base-200 mt-2 rounded-lg h-[20vh] overflow-hidden shadow-lg max-h-60 
+      className="list-none bg-base-200 mt-2 rounded-lg h-[20vh] overflow-hidden w-fit shadow-lg max-h-60 
                  overflow-y-auto text-left px-4 py-2"
     >
       {filteredCountries.map((country, index) => (

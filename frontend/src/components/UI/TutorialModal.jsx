@@ -3,7 +3,7 @@ import React from "react";
 const TutorialModal = ({ setShowTutorialModal }) => {
   return (
     <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center justify-start pt-12">
-      <div className="bg-base-200 rounded-lg shadow-xl w-3/4 lg:w-[30%]">
+      <div className="bg-base-200 rounded-lg shadow-xl w-1/2 ">
         <div className="flex justify-between items-center border-b p-4">
           <h2 className="text-xl ml-10 font-bold text-center flex-1">
             How to play
