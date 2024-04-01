@@ -4,7 +4,7 @@ const path = require("path");
 const SERVER_URL =
   process.env.NODE_ENV === "production"
     ? "https://server-geography-genius-production.up.railway.app"
-    : "http://localhost:3000/auth/google/redirect";
+    : "http://localhost:3000";
 
 // handles serving the daily challenge image
 async function getDailyChallenge(req, res) {
@@ -29,7 +29,7 @@ async function getDailyChallenge(req, res) {
           path.join(__dirname, "../assets"),
           imagePath
         );
-        let imageUrl = `${SERVER_URL}/assets/outline/${relativePath}`.replace(
+        let imageUrl = `${SERVER_URL}/assets/${relativePath}`.replace(
           /\\/g,
           "/"
         );
