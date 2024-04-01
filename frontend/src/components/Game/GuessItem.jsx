@@ -55,7 +55,11 @@ const GuessItem = ({ guessDetails }) => {
 
   return (
     <div className="grid grid-cols-8 gap-1 text-center font-semibold">
-      <div className="bg-base-200 rounded-lg flex items-center h-8 col-span-4 animate-reveal pl-2">
+      <div
+        className={`${
+          isCorrect ? "bg-accent" : "bg-base-200"
+        } rounded-lg flex items-center h-8 col-span-4 animate-reveal pl-2`}
+      >
         {guessFlag && (
           <img
             src={guessFlag}
@@ -64,23 +68,38 @@ const GuessItem = ({ guessDetails }) => {
           />
         )}
         {guessCode && <span className="font-bold mr-1">{guessCode}</span>}
-        {guess && <span className="text-md">{guess}</span>}
+        {guess && <span>{guess}</span>}
       </div>
 
-      <div className="bg-base-200 rounded-lg flex items-center justify-center h-8 col-span-2 animate-reveal">
-        {distance && (
-          <span className="font-bold text-sm mr-4">{distance} km</span>
-        )}
+      <div
+        className={`${
+          isCorrect ? "bg-accent" : "bg-base-200"
+        } rounded-lg flex items-center justify-center h-8 col-span-2 animate-reveal`}
+      >
+        <span className="font-bold text-sm mr-4">
+          {isCorrect ? "0 km" : `${distance} km`}
+        </span>
       </div>
-      <div className="bg-base-200 rounded-lg flex items-center justify-center h-8 col-span-1 animate-reveal">
-        {" "}
-        {arrowImage && (
-          <img src={imagePath} alt={direction} className="h-8 w-10" />
+      <div
+        className={`${
+          isCorrect ? "bg-accent" : "bg-base-200"
+        } rounded-lg flex items-center justify-center h-8 col-span-1 animate-reveal`}
+      >
+        {isCorrect ? (
+          <span className="text-2xl">🎉</span>
+        ) : (
+          arrowImage && (
+            <img src={imagePath} alt={direction} className="h-8 w-10" />
+          )
         )}
       </div>
 
-      <div className="bg-base-200 rounded-lg flex items-center justify-center h-8 col-span-1 animate-reveal animate-pop">
-        <span className="font-bold text-sm text-blue-500">
+      <div
+        className={`${
+          isCorrect ? "bg-accent" : "bg-base-200"
+        } rounded-lg flex items-center justify-center h-8 col-span-1 animate-reveal animate-pop`}
+      >
+        <span className="font-bold text-sm text-base-content shadow-2xl">
           {proximityPercentage}%
         </span>
       </div>

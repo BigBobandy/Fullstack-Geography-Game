@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserStats } from "../../store/slices/userStatsSlice";
+import LogoutButton from "../Auth/LogoutButton";
 
 const StatsModal = ({ setShowStatsModal }) => {
   const dispatch = useDispatch();
@@ -13,13 +14,13 @@ const StatsModal = ({ setShowStatsModal }) => {
   }, [dispatch]);
 
   return (
-    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center justify-start pt-12">
-      <div className="bg-base-200 rounded-lg shadow-2xl max-h-[70vh] w-[55vw] lg:w-[30%] ">
+    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center pt-14 sm:pt-24">
+      <div className="bg-base-200 rounded-lg shadow-2xl max-h-[70vh] w-full sm:w-[60%] lg:max-w-lg overflow-hidden">
         <div className="flex justify-between items-center border-b p-4">
-          <h2 className="text-xl ml-10 font-bold text-center flex-1">Stats</h2>
-
+          <LogoutButton />
+          <h2 className="text-xl mr-12 font-bold text-center flex-1">Stats</h2>
           <button
-            className="btn btn-circle p-1  bg-base-200 hover:bg-base-300"
+            className="btn btn-circle p-1 bg-base-200 hover:bg-base-300"
             onClick={() => setShowStatsModal(false)}
           >
             <svg
@@ -38,7 +39,10 @@ const StatsModal = ({ setShowStatsModal }) => {
             </svg>
           </button>
         </div>
-        <div className="p-4">
+        <div
+          className="p-4 overflow-y-auto"
+          style={{ maxHeight: "calc(70vh - 64px)" }}
+        >
           {stats && (
             <div>
               <div className="p-4 grid grid-cols-3 gap-4">
@@ -67,26 +71,27 @@ const StatsModal = ({ setShowStatsModal }) => {
                   <p className="stat-title">Hints Used</p>
                 </div>
               </div>
-              <div>
-                <h3 className="text-center text-lg font-semibold mb-4">
-                  Countries Guessed Correctly{" "}
-                  <span>{stats.correctGuesses.length}/252</span>
-                </h3>
-                <div className="grid grid-cols-3 gap-4  overflow-y-scroll max-h-[25%] overflow-x-hidden">
-                  {stats.correctGuesses.map((guess) => (
-                    <div
-                      key={guess._id}
-                      className="stat-country flex flex-col items-center justify-center p-2"
-                    >
-                      <img
-                        src={guess.flag}
-                        alt={`${guess.name} flag`}
-                        className="w-16 h-10 mb-2"
-                      />
-                      <span className="text-sm font-bold">{guess.name}</span>
-                    </div>
-                  ))}
-                </div>
+              <h3 className="text-center text-lg font-semibold mb-4">
+                Countries Guessed Correctly{" "}
+                <span>{stats.correctGuesses.length}/252</span>
+              </h3>
+              <div
+                className="grid grid-cols-3 gap-4 overflow-y-scroll"
+                style={{ maxHeight: "192px" }}
+              >
+                {stats.correctGuesses.map((guess, index) => (
+                  <div
+                    key={index}
+                    className="stat-country flex flex-col items-center justify-center p-2"
+                  >
+                    <img
+                      src={guess.flag}
+                      alt={`${guess.name} flag`}
+                      className="w-16 h-10 mb-2"
+                    />
+                    <span className="text-sm font-bold">{guess.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
           )}
