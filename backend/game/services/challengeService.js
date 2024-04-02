@@ -28,14 +28,14 @@ async function setDailyChallenge(selectedCountryIds) {
       // Create a new challenge
       const newChallenge = new DailyChallenge({
         dailyCountries: selectedCountryIds,
-        challengeDate: today,
+        challengeDate: todayStart,
         challengeNumber: challengeNumber,
       });
 
       await newChallenge.save();
       console.log(
         "New daily challenge set for",
-        today,
+        todayStart.toDateString(),
         "with challenge number",
         challengeNumber
       );
