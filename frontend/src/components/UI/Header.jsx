@@ -46,11 +46,9 @@ const Header = () => {
           className="btn btn-sm "
           onClick={() => setShowLeaderboardModal(true)}
         >
-          Leaderboard
           <FontAwesomeIcon icon={faRankingStar} />
         </button>
         <button className="btn btn-sm " onClick={() => setShowStatsModal(true)}>
-          Stats
           <FontAwesomeIcon icon={faStar} />
         </button>
       </div>
