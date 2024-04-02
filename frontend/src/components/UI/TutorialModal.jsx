@@ -2,7 +2,7 @@ import React from "react";
 
 const TutorialModal = ({ setShowTutorialModal }) => {
   return (
-    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center pt-14 sm:pt-1">
+    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center pt-14 sm:pt-1 md:pt-16">
       <div className="bg-base-200 rounded-lg shadow-xl w-[95%] sm:w-1/2 md:w-3/5 lg:w-1/4 max-h-3/4 overflow-y-auto">
         <div className="flex justify-between items-center border-b ">
           <h2 className="text-xl ml-10 font-bold text-center flex-1 ">
@@ -60,7 +60,7 @@ const TutorialModal = ({ setShowTutorialModal }) => {
             </li>
           </ol>
 
-          <div className="text-sm font mt-4 ">
+          <div className="text-sm font my-4 border-b ">
             <h3 className="font-bold mb-2">
               Where does this app get it's data from?
             </h3>
