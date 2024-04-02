@@ -23,13 +23,12 @@ const GuessItem = ({ guessDetails }) => {
   // Detect if the hint is a flag to render it differently
   const isFlagHint = hintUsed && hint?.startsWith("Flag:");
 
-  // if hint is available, display the hint
   if (hintUsed && hint) {
     return (
       <div className="bg-base-200 rounded-lg my-1 col-span-7 h-8 flex items-center justify-center font-semibold">
         {isFlagHint ? (
           <>
-            <h2 className="font-bold">Hint - Flag: </h2>
+            <h2 className="font-bold text-xs sm:text-sm">Hint - Flag: </h2>
             <img
               src={hint.replace("Flag: ", "")}
               alt="Country Flag"
@@ -38,17 +37,15 @@ const GuessItem = ({ guessDetails }) => {
           </>
         ) : (
           <>
-            <h2 className="font-bold mr-2">Hint: </h2>
-            <span>{hint}</span>
+            <h2 className="font-bold mr-2 text-xs sm:text-sm">Hint: </h2>
+            <span className="text-xs sm:text-sm">{hint}</span>
           </>
         )}
       </div>
     );
   }
 
-  // Find the image file name from the directionArrows object
   const arrowImage = direction ? directionArrows[direction] : null;
-
   const imagePath = arrowImage
     ? new URL(`../../assets/arrows/${arrowImage}`, import.meta.url).href
     : "";
@@ -64,11 +61,13 @@ const GuessItem = ({ guessDetails }) => {
           <img
             src={guessFlag}
             alt={guessCode}
-            className="h-8 w-10 rounded-lg mr-4"
+            className="h-6 w-8 rounded-lg mr-2"
           />
         )}
-        {guessCode && <span className="font-bold mr-1">{guessCode}</span>}
-        {guess && <span>{guess}</span>}
+        {guessCode && (
+          <span className="font-bold mr-1 text-xs sm:text-sm">{guessCode}</span>
+        )}
+        {guess && <span className="text-xs sm:text-sm">{guess}</span>}
       </div>
 
       <div
@@ -76,7 +75,7 @@ const GuessItem = ({ guessDetails }) => {
           isCorrect ? "bg-accent" : "bg-base-200"
         } rounded-lg flex items-center justify-center h-8 col-span-2 animate-reveal`}
       >
-        <span className="font-bold text-sm mr-4">
+        <span className="font-bold text-xs sm:text-sm mr-4">
           {isCorrect ? "0 km" : `${distance} km`}
         </span>
       </div>
@@ -86,7 +85,7 @@ const GuessItem = ({ guessDetails }) => {
         } rounded-lg flex items-center justify-center h-8 col-span-1 animate-reveal`}
       >
         {isCorrect ? (
-          <span className="text-2xl">🎉</span>
+          <span className="text-lg">🎉</span>
         ) : (
           arrowImage && (
             <img src={imagePath} alt={direction} className="h-8 w-10" />
@@ -99,7 +98,7 @@ const GuessItem = ({ guessDetails }) => {
           isCorrect ? "bg-accent" : "bg-base-200"
         } rounded-lg flex items-center justify-center h-8 col-span-1 animate-reveal animate-pop`}
       >
-        <span className="font-bold text-sm text-base-content shadow-2xl">
+        <span className="font-bold text-xs sm:text-sm shadow-2xl text-base-content">
           {proximityPercentage}%
         </span>
       </div>
