@@ -1,54 +1,43 @@
-# Geography Genius - App Outline
+# Geography Genius - A Geography Guessing Game
 
-## General Concept
+**Geography Genius** is a Wordle-type game inspired by [Tradle](https://games.oec.world/en/tradle/) and [Worldle](https://worldle.teuteuf.fr/), which themselves draw inspiration from [Wordle](https://www.nytimes.com/games/wordle/index.html). This game challenges your geographical knowledge by asking you to identify countries based on their outlines, with a new challenge every day.
 
-- A guessing game inspired by the mechanics of Tradle (which was inspired by Wordle), where players have the daily task of identifying a country from its outline.
-- Each day, a single country's outline is presented as the challenge.
-- Players have up to 6 guesses to identify the country correctly.
-- Players can choose to sacrifice one of their guesses in exchange for a hint, such as the name of it's capital city, the continent the country is in, the image of its flag (hints progressing in this order from least to most helpful).
-- With each guess, players receive feedback on the distance in kilometers from their guess to the actual country, along with a directional arrow guiding them towards the correct location.
-- To add a social element, players will be able to share their daily scores on social media, extending the game's reach and encouraging friendly competition.
+## Features
 
-## Front End
+- **Daily Country Outline Challenge:** Each day brings three new country outlines to guess.
+- **Limited Guesses:** You have six attempts to guess all countries.
+- **Hints:** Sacrifice a guess to receive a hint, revealing the country's capital, continent, or flag.
+- **Feedback Mechanism:** Provides distance, direction and proximity feedback after each guess.
+- **Personal Stats:** Tracks your games played, wins, guesses, and streaks.
+- **Social Sharing (Upcoming):** Allows sharing daily performance on social media.
+- **Leaderboard (Upcoming):** Ranks the top players.
 
-- **Technology**: Vite React, React Router, React Redux for State Management
-- **Styling**: TailwindCSS, Daisy UI, FontAwesome for Icons
-- **Planned Features**:
-  - User Interface for game interaction.
-  - Display of daily challenge (country outline).
-  - Input mechanism for country guesses.
-  - Feedback mechanism to guide the player to the correct answer.
-  - Results page showing correct answer and player's performance.
-  - Social sharing functionality.
-  - User authentication for leaderboard.
+## Technologies
 
-## Back End
+### Front End
 
-- **Technology**: Node.js, Express, Passport.js Google Oauth 2.0 for user auth
-- **Database**: MongoDB with Mongoose
-- **Planned Features**:
-  - API endpoints for fetching daily challenges and submitting guesses.
-  - Database schema for countries (including country outlines and geographical data).
-  - Database schema for leaderboard.
-  - Integration with a geographical API for distance calculations, if needed.
-  - 3rd Party User authentication using Google Oauth.
+- **Framework:** React with Vite for development.
+- **State Management** React Redux/Redux Toolkit.
+- **Routing** React Router.
+- **Styling:** TailwindCSS and DaisyUI.
+- **Icons:** FontAwesome.
 
-## Data
+### Back End
 
-- **Countries and Outlines**: The outlines of countries presented in the challenges are rendered from GeoJSON data sourced from [Natural Earth](http://www.naturalearthdata.com/).
-- **Leaderboard Data**: IN-PROGRESS.
+- **Server:** Node.js and Express.
+- **Authentication:** Google OAuth 2.0 & Passport.js.
+- **Database:** MongoDB with Mongoose.
+
+## Data Sources
+
+- **Country Information:** [Rest Countries API](https://restcountries.com/).
+- **Country Outlines:** GeoJSON data from [Natural Earth](https://www.naturalearthdata.com/).
+
+## Experience Geography Genius
+
+The game is live [here](https://geography-genius-production.up.railway.app/)!
 
 ## Acknowledgments
 
-I'm using GeoJSON data from [Natural Earth](http://www.naturalearthdata.com/), which is a fantastic resource for high-quality map data, freely available for everyone. Big thanks to them, [Lexman](http://github.com/lexman), and the [Open Knowledge Foundation](http://okfn.org/) for their contribution to open data.
-
-All the GeoJSON data is under the [Open Data Commons Public Domain Dedication and License (PDDL)](http://opendatacommons.org/licenses/pddl/1.0/), which is really generous and helpful for projects like this one.
-
-## Functionality
-
-- **Core Gameplay**: The core challenge is to guess the country from its outline. Each player receives one country outline to guess per day.
-- **Hints System**: Players can opt to receive a hint at the cost of one guess. Hints could reveal the capital city, the continent the country is located in, or the country's flag.
-- **Distance Feedback**: After each guess, the game reveals how far off the guess was from the correct country in kilometers.
-- **Directional Arrow**: Alongside the distance feedback, an arrow will point players in the direction of the actual country, aiding in the next guess.
-- **Daily Challenge**: The game updates daily with a new country to guess, keeping the challenge fresh and exciting.
-- **Social Sharing**: After completing the daily challenge, players can share their results on social media, promoting the game organically and inviting friends to join the fun.
+- Rest Countries API and Natural Earth for the critical data used in this game.
+- Inspired by Tradle and Worldle, paying homage to the original Wordle game.

@@ -2,8 +2,8 @@ import React from "react";
 
 const LeaderboardModal = ({ setShowLeaderboardModal }) => {
   return (
-    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center pt-14 sm:pt-24">
-      <div className="bg-base-200 rounded-lg shadow-xl w-full sm:w-1/2 max-h-3/4 overflow-y-auto">
+    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center pt-14 sm:pt-1 md:pt-16">
+      <div className="bg-base-200 rounded-lg shadow-xl w-full sm:w-1/2 md:w-3/5 lg:w-1/4 max-h-3/4 overflow-y-auto">
         <div className="flex justify-between items-center border-b p-4">
           <h2 className="text-xl ml-10 font-bold text-center flex-1">
             Leaderboard coming soon!

@@ -14,9 +14,9 @@ const StatsModal = ({ setShowStatsModal }) => {
   }, [dispatch]);
 
   return (
-    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center pt-14 sm:pt-24">
+    <div className="w-full h-full fixed z-[1] left-0 top-0 flex flex-col items-center pt-14 sm:pt-1 md:pt-16">
       <div className="bg-base-200 rounded-lg shadow-2xl max-h-[70vh] w-full sm:w-[60%] lg:max-w-lg overflow-hidden">
-        <div className="flex justify-between items-center border-b p-4">
+        <div className="flex justify-between items-center border-b ">
           <LogoutButton />
           <h2 className="text-xl mr-12 font-bold text-center flex-1">Stats</h2>
           <button
