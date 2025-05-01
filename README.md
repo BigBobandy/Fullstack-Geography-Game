@@ -1,6 +1,6 @@
 # Geography Genius - A Geography Guessing Game
 
-**Geography Genius** is a Wordle-type game inspired by [Tradle](https://games.oec.world/en/tradle/) and [Worldle](https://worldle.teuteuf.fr/), which themselves draw inspiration from [Wordle](https://www.nytimes.com/games/wordle/index.html). This game challenges your geographical knowledge by asking you to identify countries based on their outlines, with a new challenge every day.
+**Geography Genius** This game challenges your geographical knowledge by asking you to identify countries based on their outlines, with a new challenge every day.
 
 ## Features
 
